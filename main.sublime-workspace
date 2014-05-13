@@ -1,0 +1,485 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"for",
+				"forEach"
+			],
+			[
+				"padding",
+				"padding-right"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"drag",
+				"draggedElement"
+			],
+			[
+				"serv",
+				"serverId"
+			],
+			[
+				"tmpD",
+				"tmpDragWeight"
+			],
+			[
+				"ser",
+				"serverId"
+			],
+			[
+				"tmp",
+				"tmpDropWeight"
+			],
+			[
+				"id",
+				"idDroppedServer"
+			],
+			[
+				"dra",
+				"draggedElement"
+			],
+			[
+				"se",
+				"selectedServer"
+			],
+			[
+				"get",
+				"getServer"
+			],
+			[
+				"defer",
+				"deferred"
+			],
+			[
+				"new",
+				"newServerWeight"
+			],
+			[
+				"dta",
+				"dataServer"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"in",
+				"input"
+			],
+			[
+				"border-s",
+				"border-style"
+			],
+			[
+				"paddi",
+				"padding-right"
+			],
+			[
+				"border",
+				"border"
+			],
+			[
+				"data",
+				"dataServer"
+			],
+			[
+				"da",
+				"dataServer"
+			],
+			[
+				"co",
+				"controller"
+			],
+			[
+				"de",
+				"deffered"
+			],
+			[
+				"http",
+				"httpServer"
+			],
+			[
+				"htt",
+				"httpServer"
+			],
+			[
+				"margin-l",
+				"margin-left"
+			],
+			[
+				"mar",
+				"margin-bottom"
+			],
+			[
+				"pad",
+				"padding-right"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"padi",
+				"padding-bottom"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"h",
+				"h1	Tag"
+			],
+			[
+				"l",
+				"li	Tag"
+			],
+			[
+				"u",
+				"ul	Tag"
+			],
+			[
+				"te",
+				"text-align"
+			],
+			[
+				"font-",
+				"font-style"
+			],
+			[
+				"js",
+				"js"
+			],
+			[
+				"tex",
+				"text-decoration"
+			],
+			[
+				"st",
+				"font-style"
+			],
+			[
+				"marg",
+				"margin-right"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"Ja",
+				"JAVA_HOME"
+			],
+			[
+				"padding-",
+				"padding-right"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 2038,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "css/style.css",
+			"settings":
+			{
+				"buffer_size": 1108,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/client/client.js",
+			"settings":
+			{
+				"buffer_size": 3972,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 334.0,
+		"selected_items":
+		[
+		],
+		"width": 416.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/KVN/Documents/Projet2A-2014/Main/tmp/FormeJsonCluster.json",
+		"/C/Users/KVN/Documents/Projet2A-2014/Labs/ng-navigation-bar-master/example/index.js",
+		"/C/Users/KVN/Documents/Projet2A-2014/Main/js/dragAndDrop/lvl-drag-drop.js",
+		"/C/Users/KVN/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/KVN/Documents/Site-Audrey/css/style.css",
+		"/C/Users/KVN/Documents/Projet2A-2014/Main/js/dragAndDrop/lvl-uuid.js",
+		"/C/Users/KVN/Documents/Site-Audrey/index.html",
+		"/C/Users/KVN/Documents/Projet2A-2014/Main/server.js",
+		"/C/Users/KVN/Documents/Projet2A-2014/Labs/NodeJsLab/index.html",
+		"/C/Users/KVN/Documents/Projet2A-2014/Labs/NodeJsLab/js/client.js",
+		"/C/Users/KVN/Documents/Projet2A-2014/Labs/NodeJsLab/server.js",
+		"/C/Users/KVN/Documents/Projet2A-2014/Labs/NodeJsLab/NodeLab.sublime-project",
+		"/C/Users/KVN/Documents/Projet2A-2014/Labs/NodeJsLab/css/style.css",
+		"/C/Users/KVN/Documents/Projet2A-2014/Labs/Gruntjs/package.json",
+		"/C/Users/KVN/Documents/Site-Audrey/js/menu.js",
+		"/C/Users/KVN/Documents/Dev_Web/Lab/Menu-Deroulant/style.css",
+		"/C/Users/KVN/Documents/Dev_Web/Lab/Menu-Deroulant/index.html",
+		"/C/Users/KVN/Documents/Dev_Web/Lab/Menu-Deroulant/menu.js",
+		"/C/Users/KVN/Documents/Site-Audrey/css/slider.css",
+		"/Z/Sauvegarde_PC_Portable/Mes documents/Sites/MP lamerci/style.css",
+		"/Z/Sauvegarde_PC_Portable/Mes documents/Sites/Festival/css/style.css",
+		"/C/Users/KVN/Documents/Site-Audrey/js/jquery.jcarousel.js",
+		"/C/Users/KVN/Desktop/index.html",
+		"/C/hbase-0.94.18/conf/hbase-site.xml",
+		"/C/Users/KVN/Downloads/hbase-site.xml",
+		"/C/Users/KVN/Downloads/hbase-env.sh",
+		"/C/hbase-0.94.18/conf/hbase-env.sh",
+		"/C/Users/KVN/Documents/Dev_Web/Motoccaz/index.html",
+		"/C/Users/KVN/Documents/Dev_Web/Motoccaz/template_annonce.html",
+		"/C/Users/KVN/Documents/Dev_Web/Motoccaz/css/style.css",
+		"/C/Users/KVN/Documents/Dev_Web/Site_Bootstrap/index.html"
+	],
+	"find":
+	{
+		"height": 0.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"server"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2038,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1077,
+								1074
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 688.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 1,
+					"file": "css/style.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1108,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								415,
+								415
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage"
+						},
+						"translation.x": -0.0,
+						"translation.y": 108.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "js/client/client.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3972,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3196,
+								3196
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1296.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.505934282098,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "main.sublime-project",
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 174.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

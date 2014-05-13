@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JSBase</title>
+	<meta charset=utf-8 />
+	<link rel="stylesheet" type="text/css" href="css/style.css" media="all"/>
+</head>
+
+<body ng-app="MonApp">
+	<div id="main-container">
+		<h2>Bienvenue sur JSBase</h2>
+		<div id="submit-zone">
+			<input type="submit" value="Appliquer modifications" />
+			<input type="submit" value="Sauvegarder configuration" />
+		</div>
+		<div ng-controller="SliderController" id="serversSlider">
+			<ul>
+				<li ng-repeat="server in dataServer.servers" class="serverSlider">
+					id: {{server.id}}
+					<img src="img/server.png" alt="serverSlider" />
+				</li>
+				<li class="serverSlider"> "test"<img src="img/server.png" alt="serverSlider" /></li>
+				<li class="serverSlider"> "test"<img src="img/server.png" alt="serverSlider" /></li>
+				
+			</ul>
+		</div>
+		<div ng-controller="MainController" id ="container">
+			<p>
+				worstImbalance: {{dataServer.worstImbalance}} kg <br>
+				Servers:
+				<ul>
+				<li ng-repeat="server in dataServer.servers" class="server">
+					<img src="img/server.png" alt="server" />
+					<span class="server-id">
+						id: {{server.id}} <br>
+						weight: {{server.weight}} kg
+					</span>
+					<ul class="shards" x-lvl-drop-target='true' x-on-drop='dropped(dragEl, dropEl)' serverWeight="{{server.weight}}" serverId="{{server.id}}"> Shards :
+						
+						<li ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' ng-style="shardWeight(shard.weight,server.weight)" weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}">
+							id: {{shard.id}} <br/>
+							weight: {{shard.weight}}kg
+						</li>
+					</ul>
+				</li>
+				</ul>
+			</p>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="js/client/client.js"></script>
+	<script src="js/dragAndDrop/lvl-uuid.js"></script>
+	<script src="js/dragAndDrop/lvl-drag-drop.js"></script>
+</body>
+</html>

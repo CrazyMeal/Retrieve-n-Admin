@@ -1,0 +1,84 @@
+html {
+    height  : 100%;
+    margin  : 0; 
+    padding : 0;
+}
+body{
+	height  : 100%;
+	margin  : auto;
+    padding : auto;
+    width   : 800px;
+}
+
+#main-container {
+	margin-left : auto;
+	margin-right: auto;
+
+}
+
+#serversSlider {
+	display: block;
+	height : 130px;
+	overflow: auto;
+	background-color: grey;
+}
+#serversSlider ul {
+	white-space: nowrap;
+}
+#serversSlider li {
+	display: inline-block;
+	list-style: none;
+}
+.serverSlider {
+	display: inline-block;
+	width: 80px;
+	height: 78px;
+	
+	margin-right: 10px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border: 1px solid black;
+}
+
+.server {
+	display      : block;
+	float        : left;
+	margin-right : 10px;
+	padding-left : 5px;
+	padding-right: 5px;
+	border       : 1px solid black;
+	width		 : 200px; 
+}
+.server-id {
+	color : blue;
+	float: right;
+}
+.shard {
+	border : 1px black;
+	border-style: dashed;
+	margin-bottom: 2px;
+	display: block;
+}
+
+#container {
+	display: block;
+	width: 800px;
+}
+#container li{
+	list-style : none;
+}
+#container img {
+	width : 25%;
+	height: 25%;
+}
+
+#submit-zone{
+	margin-top: 20px;
+	width: 800px;
+}
+
+
+
+[draggable] {
+    cursor: move;
+}
