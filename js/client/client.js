@@ -52,8 +52,6 @@ app.controller('MainController',function ($scope, NetFactory){
 						weight : draggedElement.attr("weight")
 					};
 					value.shards.push(newShard);
-					//console.log('Destination');
-					//console.log(value);
 				}
 			});
 			// Calcul du nouveau poid du server d'origine
@@ -69,8 +67,6 @@ app.controller('MainController',function ($scope, NetFactory){
 							value.shards.splice(index, 1);
 						}
 					});
-					//console.log('Origin');
-					//console.log(value);
 				}
 			});
 			
@@ -119,6 +115,17 @@ app.controller('SliderController',function ($scope, NetFactory){
 		}, function(msg){
 			alert(msg);
 		});
+
+		$scope.serverWeight = function(serverWeight) {
+			var tmpTotalWeight = 0;
+			angular.forEach($scope.dataServer.servers, function(server, index){
+				tmpTotalWeight = tmpTotalWeight + parseInt(server.weight);
+			});
+			var percentValue = 100 - (serverWeight * 60 / tmpTotalWeight);
+        	return {  
+        		'background-color': 'hsl(2, 100%,'+percentValue+'%)'
+        	};
+        }
 });
 /*
 app.config(['$httpProvider', function ($httpProvider) {

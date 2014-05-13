@@ -29,6 +29,10 @@ body{
 	display: inline-block;
 	list-style: none;
 }
+#serversSlider img {
+	width: 70%;
+	height: 70%;
+}
 .serverSlider {
 	display: inline-block;
 	width: 80px;
