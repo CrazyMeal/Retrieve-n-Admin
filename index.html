@@ -7,21 +7,22 @@
 </head>
 
 <body ng-app="MonApp">
-	<div id="main-container">
+	<div ng-controller="MainController" id="main-container">
 		<h2>Bienvenue sur JSBase</h2>
 		<div id="submit-zone">
 			<input type="submit" value="Appliquer modifications" />
 			<input type="submit" value="Sauvegarder configuration" />
 		</div>
-		<div ng-controller="SliderController" id="serversSlider">
+		<div id="serversSlider">
 			<ul>
 				<li ng-repeat="server in dataServer.servers" class="serverSlider" ng-style="serverWeight(server.weight)">
-					id: {{server.id}}
+					id: {{server.id}} <br>
+					weight: {{server.weight}}
 					<img src="img/server.png" alt="serverSlider" />
 				</li>
 			</ul>
 		</div>
-		<div ng-controller="MainController" id ="container">
+		<div id ="container">
 			<p>
 				worstImbalance: {{dataServer.worstImbalance}} kg <br>
 				Servers:

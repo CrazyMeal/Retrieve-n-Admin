@@ -24,15 +24,15 @@ app.controller('MainController',function ($scope, NetFactory){
 		//Partie pour récupération de données depuis le web
 		$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
 			$scope.dataServer = dataServer;
-			/*
+			
 			angular.forEach($scope.dataServer.servers, function(server, index){
 				var tmpWeightValue = 0;
 				angular.forEach(server.shards, function(shard, index){
-					tmpWeightValue += parseInt(shard.weight);
+					tmpWeightValue = tmpWeightValue + parseInt(shard.weight);
 				});
 				server.weight = tmpWeightValue;
 			});
-			*/
+			
 		}, function(msg){
 			alert(msg);
 		});
@@ -67,6 +67,7 @@ app.controller('MainController',function ($scope, NetFactory){
 							value.shards.splice(index, 1);
 						}
 					});
+					//console.log(value.weight);
 				}
 			});
 			
@@ -88,7 +89,7 @@ app.controller('MainController',function ($scope, NetFactory){
 
 					var newLightnessValue = 100 - (drag.attr("weight") * 60 / drop.attr("serverWeight"));
 					drag.css({'background-color' : 'hsl(0, 100%,'+newLightnessValue+'%)' });
-					
+
 					//drop.append(drag);
 				} else {
 					drop.replaceWith(drag);
@@ -96,11 +97,24 @@ app.controller('MainController',function ($scope, NetFactory){
 			}
 		};
 		
-		// Fonction pour la couleur p/r au poid
+		// Fonction pour la couleur p/r au poid pour les regions
 		$scope.shardWeight = function(value, serverValue) {
 			var percentValue = 100 - (value * 60 / serverValue);
         	return { 
         		'padding-bottom': value+'px', 
+        		'background-color': 'hsl(2, 100%,'+percentValue+'%)'
+        	};
+        }
+
+        $scope.serverWeight = function(serverWeight) {
+			console.log('maj');
+			var tmpTotalWeight = 0;
+			angular.forEach($scope.dataServer.servers, function(server, index){
+				console.log('weight: '+server.weight);
+				tmpTotalWeight = tmpTotalWeight + parseInt(server.weight);
+			});
+			var percentValue = 100 - (serverWeight * 60 / tmpTotalWeight);
+        	return {  
         		'background-color': 'hsl(2, 100%,'+percentValue+'%)'
         	};
         }
@@ -117,8 +131,10 @@ app.controller('SliderController',function ($scope, NetFactory){
 		});
 
 		$scope.serverWeight = function(serverWeight) {
+			console.log('maj');
 			var tmpTotalWeight = 0;
 			angular.forEach($scope.dataServer.servers, function(server, index){
+				console.log('weight: '+server.weight);
 				tmpTotalWeight = tmpTotalWeight + parseInt(server.weight);
 			});
 			var percentValue = 100 - (serverWeight * 60 / tmpTotalWeight);
