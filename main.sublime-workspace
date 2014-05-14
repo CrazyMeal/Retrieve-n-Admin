@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"weight",
+				"weightWarningType"
+			],
+			[
 				"s",
 				"serverWeight"
 			],
@@ -199,7 +203,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 2588,
+				"buffer_size": 2506,
 				"line_ending": "Windows"
 			}
 		},
@@ -207,7 +211,7 @@
 			"file": "css/style.css",
 			"settings":
 			{
-				"buffer_size": 1276,
+				"buffer_size": 1283,
 				"line_ending": "Windows"
 			}
 		},
@@ -215,7 +219,7 @@
 			"file": "js/client/client.js",
 			"settings":
 			{
-				"buffer_size": 5061,
+				"buffer_size": 5673,
 				"line_ending": "Windows"
 			}
 		}
@@ -323,15 +327,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2588,
+						"buffer_size": 2506,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1778,
-								1778
+								1599,
+								1599
 							]
 						],
 						"settings":
@@ -339,10 +343,10 @@
 							"syntax": "Packages/HTML/HTML.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 684.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -357,15 +361,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1276,
+						"buffer_size": 1283,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								144,
-								144
+								925,
+								925
 							]
 						],
 						"settings":
@@ -373,10 +377,10 @@
 							"syntax": "Packages/CSS/CSS.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 702.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -385,15 +389,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5061,
+						"buffer_size": 5673,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3735,
-								3735
+								4132,
+								4132
 							]
 						],
 						"settings":
@@ -402,10 +406,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1566.0,
+						"translation.y": 2052.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -439,7 +443,7 @@
 		"cols":
 		[
 			0.0,
-			0.599118232521,
+			0.523912592098,
 			1.0
 		],
 		"rows":

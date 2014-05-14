@@ -61,10 +61,10 @@ body{
 	float: right;
 }
 .shard {
-	border : 1px black;
-	border-style: dashed;
-	margin-bottom: 2px;
+	padding-bottom: 1px;
+	margin-bottom: 10px;
 	display: block;
+	background-color: #D3D3D3;
 }
 
 #container {

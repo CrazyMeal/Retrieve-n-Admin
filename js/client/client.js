@@ -82,29 +82,17 @@ app.controller('MainController',function ($scope, NetFactory){
 			var drag = angular.element(dragEl);
 			
 			console.log("The element " + drag.attr('id') + " has been dropped on " + drop.attr("id") + "!");
-			if(drop.attr("serverId") != drag.attr("serverId")){
+			if( (drop.attr("serverId") != drag.attr("serverId")) && (drag.hasClass("shard") )){
 				if(drop.hasClass("shards")){
 
 					modifyServer(drop.attr("serverId"),drag);
 
 					var newLightnessValue = 100 - (drag.attr("weight") * 45 / drop.attr("serverWeight"));
-					drag.css({'background-color' : 'hsl(0, 100%,'+newLightnessValue+'%)' });
-
-					//drop.append(drag);
 				} else {
 					drop.replaceWith(drag);
 				}
 			}
 		};
-		
-		// Fonction pour la couleur p/r au poid pour les regions
-		$scope.shardWeight = function(value, serverValue) {
-			var percentValue = 100 - (value * 45 / serverValue);
-        	return { 
-        		'padding-bottom': value+'px', 
-        		'background-color': 'hsl(2, 100%,'+percentValue+'%)'
-        	};
-        }
 
         $scope.weightPercent = function(weight, sWeight) {
         	var percentValue = 0;
@@ -125,22 +113,16 @@ app.controller('MainController',function ($scope, NetFactory){
 
         	if (percentValue < 25) {
 		      type = 'success';
-		    } else if (percentValue < 50) {
+		    } else if (percentValue < 51) {
 		      type = 'info';
 		    } else if (percentValue < 75) {
 		      type = 'warning';
 		    } else {
 		      type = 'danger';
 		    }
-		    console.log('efzefez');
-		    console.log(type);
         	return type;
 
         }
-        $scope.test = function() {
-        	return 'success';
-        }
-
         $scope.serverWeight = function(serverWeight) {
 			var tmpTotalWeight = 0;
 			angular.forEach($scope.dataServer.servers, function(server, index){
