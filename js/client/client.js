@@ -106,6 +106,16 @@ app.controller('MainController',function ($scope, NetFactory){
         	};
         }
 
+        $scope.weightPercent = function(weight, sWeight) {
+        	var percentValue = 0;
+        	var shardWeight = parseInt(weight);
+        	var serverWeight = parseInt(sWeight);
+
+        	percentValue = (shardWeight * 100) / serverWeight;
+
+        	return percentValue;
+        }
+
         $scope.serverWeight = function(serverWeight) {
 			var tmpTotalWeight = 0;
 			angular.forEach($scope.dataServer.servers, function(server, index){

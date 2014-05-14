@@ -39,6 +39,7 @@
 						<li ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' ng-style="shardWeight(shard.weight,server.weight)" weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}">
 							id: {{shard.id}} <br/>
 							weight: {{shard.weight}}kg
+							<progressbar class="progress-striped active" value="weightPercent(shard.weight,server.weight)" type="warning">{{type}} <i ng-show="showWarning">!!! Watch out !!!</i></progressbar>
 						</li>
 					</ul>
 				</li>
