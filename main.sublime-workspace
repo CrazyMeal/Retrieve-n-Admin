@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"tmp",
+				"tmpTotalWeight"
+			],
+			[
+				"server",
+				"serverWeight"
+			],
+			[
 				"for",
 				"forEach"
 			],
@@ -30,10 +38,6 @@
 			[
 				"ser",
 				"serverId"
-			],
-			[
-				"tmp",
-				"tmpDropWeight"
 			],
 			[
 				"id",
@@ -187,7 +191,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 2038,
+				"buffer_size": 1897,
 				"line_ending": "Windows"
 			}
 		},
@@ -195,7 +199,7 @@
 			"file": "css/style.css",
 			"settings":
 			{
-				"buffer_size": 1108,
+				"buffer_size": 1173,
 				"line_ending": "Windows"
 			}
 		},
@@ -203,7 +207,7 @@
 			"file": "js/client/client.js",
 			"settings":
 			{
-				"buffer_size": 3972,
+				"buffer_size": 4827,
 				"line_ending": "Windows"
 			}
 		}
@@ -235,6 +239,7 @@
 	},
 	"file_history":
 	[
+		"/C/Users/KVN/Documents/Projet2A-2014/JSBase/tmp/FormeJsonCluster.json",
 		"/C/Users/KVN/Documents/Projet2A-2014/Main/tmp/FormeJsonCluster.json",
 		"/C/Users/KVN/Documents/Projet2A-2014/Labs/ng-navigation-bar-master/example/index.js",
 		"/C/Users/KVN/Documents/Projet2A-2014/Main/js/dragAndDrop/lvl-drag-drop.js",
@@ -310,15 +315,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2038,
+						"buffer_size": 1897,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1077,
-								1074
+								569,
+								569
 							]
 						],
 						"settings":
@@ -326,7 +331,7 @@
 							"syntax": "Packages/HTML/HTML.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 256.0,
+						"translation.y": 112.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -335,7 +340,7 @@
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -344,26 +349,26 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1108,
+						"buffer_size": 1173,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								415,
-								415
+								475,
+								475
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/CSS/CSS.tmLanguage"
 						},
-						"translation.x": -0.0,
+						"translation.x": 0.0,
 						"translation.y": 108.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -372,15 +377,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3972,
+						"buffer_size": 4827,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3196,
-								3196
+								3906,
+								3906
 							]
 						],
 						"settings":
@@ -389,10 +394,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1296.0,
+						"translation.y": 1620.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -426,7 +431,7 @@
 		"cols":
 		[
 			0.0,
-			0.505934282098,
+			0.517961773507,
 			1.0
 		],
 		"rows":

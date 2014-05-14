@@ -4,14 +4,15 @@
 	<title>JSBase</title>
 	<meta charset=utf-8 />
 	<link rel="stylesheet" type="text/css" href="css/style.css" media="all"/>
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 </head>
 
 <body ng-app="MonApp">
-	<div ng-controller="MainController" id="main-container">
+	<div ng-controller="MainController" id="main-container" class="container">
 		<h2>Bienvenue sur JSBase</h2>
-		<div id="submit-zone">
-			<input type="submit" value="Appliquer modifications" />
-			<input type="submit" value="Sauvegarder configuration" />
+		<div id="button-zone">
+			<button  value=" Send" class="btn btn-primary" type="submit">Sauvegarder les modifications</button>
+			<button  value=" Send" class="btn btn-primary" type="submit">Appliquer les modifications</button>
 		</div>
 		<div id="serversSlider">
 			<ul>
@@ -44,10 +45,17 @@
 				</ul>
 			</p>
 		</div>
+		<small><em>Object (changes type based on value)</em></small>
+    	
 	</div>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="js/client/client.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+	<script src="js/ui-bootstrap/ui-bootstrap-0.11.0.min.js"></script>
+	<script src="js/ui-bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
 	<script src="js/dragAndDrop/lvl-uuid.js"></script>
 	<script src="js/dragAndDrop/lvl-drag-drop.js"></script>
 </body>

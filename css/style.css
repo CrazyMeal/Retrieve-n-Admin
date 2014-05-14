@@ -15,7 +15,9 @@ body{
 	margin-right: auto;
 
 }
-
+#button-zone {
+	margin-bottom: 5px;
+}
 #serversSlider {
 	display: block;
 	height : 130px;
@@ -87,3 +89,4 @@ body{
 [draggable] {
     cursor: move;
 }
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

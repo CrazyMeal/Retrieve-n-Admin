@@ -1,5 +1,5 @@
 jQuery.event.props.push('dataTransfer');
-var app = angular.module('MonApp',['lvl.directives.dragdrop']);
+var app = angular.module('MonApp',['lvl.directives.dragdrop','ui.bootstrap']);
 
 app.factory('NetFactory', function($http, $q){
 	var factory = {
@@ -87,7 +87,7 @@ app.controller('MainController',function ($scope, NetFactory){
 
 					modifyServer(drop.attr("serverId"),drag);
 
-					var newLightnessValue = 100 - (drag.attr("weight") * 60 / drop.attr("serverWeight"));
+					var newLightnessValue = 100 - (drag.attr("weight") * 45 / drop.attr("serverWeight"));
 					drag.css({'background-color' : 'hsl(0, 100%,'+newLightnessValue+'%)' });
 
 					//drop.append(drag);
@@ -99,7 +99,7 @@ app.controller('MainController',function ($scope, NetFactory){
 		
 		// Fonction pour la couleur p/r au poid pour les regions
 		$scope.shardWeight = function(value, serverValue) {
-			var percentValue = 100 - (value * 60 / serverValue);
+			var percentValue = 100 - (value * 45 / serverValue);
         	return { 
         		'padding-bottom': value+'px', 
         		'background-color': 'hsl(2, 100%,'+percentValue+'%)'
@@ -107,10 +107,8 @@ app.controller('MainController',function ($scope, NetFactory){
         }
 
         $scope.serverWeight = function(serverWeight) {
-			console.log('maj');
 			var tmpTotalWeight = 0;
 			angular.forEach($scope.dataServer.servers, function(server, index){
-				console.log('weight: '+server.weight);
 				tmpTotalWeight = tmpTotalWeight + parseInt(server.weight);
 			});
 			var percentValue = 100 - (serverWeight * 60 / tmpTotalWeight);
