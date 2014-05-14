@@ -112,8 +112,33 @@ app.controller('MainController',function ($scope, NetFactory){
         	var serverWeight = parseInt(sWeight);
 
         	percentValue = (shardWeight * 100) / serverWeight;
-
+        	$scope.weightWarningType(weight, sWeight);
         	return percentValue;
+        }
+        $scope.weightWarningType = function(weight, sWeight) {
+        	var type;
+        	var percentValue = 0;
+        	var shardWeight = parseInt(weight);
+        	var serverWeight = parseInt(sWeight);
+
+        	percentValue = (shardWeight * 100) / serverWeight;
+
+        	if (percentValue < 25) {
+		      type = 'success';
+		    } else if (percentValue < 50) {
+		      type = 'info';
+		    } else if (percentValue < 75) {
+		      type = 'warning';
+		    } else {
+		      type = 'danger';
+		    }
+		    console.log('efzefez');
+		    console.log(type);
+        	return type;
+
+        }
+        $scope.test = function() {
+        	return 'success';
         }
 
         $scope.serverWeight = function(serverWeight) {
