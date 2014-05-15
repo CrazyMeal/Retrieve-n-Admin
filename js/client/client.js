@@ -24,8 +24,8 @@ app.controller('MainController',function ($scope, NetFactory){
 		//Partie pour récupération de données depuis le web
 		$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
 			$scope.dataServer = dataServer;
-			splitServers();
-			console.log('split fait');
+			$scope.serversToSplit = [];
+			//splitServers();
 			var totalWeight = 0;
 			
 			angular.forEach($scope.dataServer.servers, function(server, index){
@@ -98,6 +98,20 @@ app.controller('MainController',function ($scope, NetFactory){
 			}
 		};
 
+		$scope.droppedServer = function(dragEl, dropEl) {
+			var drop = angular.element(dropEl);
+			var drag = angular.element(dragEl);
+			angular.forEach($scope.dataServer.servers, function(server, index){
+				if(server.id == drag.attr('serverId')){
+					if($.inArray(server, $scope.serversToSplit) == -1){
+						$scope.serversToSplit.push(server);
+					}
+				}
+			});
+			splitServers();
+			$scope.$apply();
+		};
+
         $scope.weightPercent = function(weight, sWeight) {
         	var percentValue = 0;
         	var shardWeight = parseInt(weight);
@@ -144,45 +158,20 @@ app.controller('MainController',function ($scope, NetFactory){
         	compSet = [];
         	$scope.splitServers = [];
         	
-        	angular.forEach($scope.dataServer.servers, function(serv,index){
-        		var server = $scope.dataServer.servers[index];
+        	angular.forEach($scope.serversToSplit, function(serv,index){
+        		var server = $scope.serversToSplit[index];
         		compSet.push(server);
 
 				if( ((index+1) % 4) == 0){
-					console.log(index);
 				    $scope.splitServers.push(compSet);
 				    compSet = [];
 				}
 				
         	});
         	$scope.splitServers.push(compSet);
-        	console.log($scope.splitServers);
         };
 	}
 );
-
-app.controller('SliderController',function ($scope, NetFactory){
-		
-		//Partie pour récupération de données depuis le web
-		$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
-			$scope.dataServer = dataServer;
-		}, function(msg){
-			alert(msg);
-		});
-
-		$scope.serverWeight = function(serverWeight) {
-			console.log('maj');
-			var tmpTotalWeight = 0;
-			angular.forEach($scope.dataServer.servers, function(server, index){
-				console.log('weight: '+server.weight);
-				tmpTotalWeight = tmpTotalWeight + parseInt(server.weight);
-			});
-			var percentValue = 100 - (serverWeight * 60 / tmpTotalWeight);
-        	return {  
-        		'background-color': 'hsl(2, 100%,'+percentValue+'%)'
-        	};
-        }
-});
 /*
 app.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.useXDomain = true;

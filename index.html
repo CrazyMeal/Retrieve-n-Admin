@@ -17,17 +17,17 @@
 		</div>
 		<div id="serversSlider">
 			<ul>
-				<li ng-repeat="server in dataServer.servers" class="serverSlider" >
+				<li ng-repeat="server in dataServer.servers" class="serverSlider" x-lvl-draggable='true' serverId="{{server.id}}">
 					id: {{server.id}} <br>
 					weight: {{server.weight}}
 					<br>
-					<img src="img/server.png" alt="serverSlider" />
+					<img src="img/server.png" alt="serverSlider"/>
 
 					<progressbar class="progress-striped active" value="weightPercent(server.weight,totalWeight)" type="{{weightWarningType(server.weight,totalWeight)}}"></progressbar>
 				</li>
 			</ul>
 		</div>
-		<div id ="serverContainer">
+		<div id ="serverContainer" x-lvl-drop-target='true' x-on-drop='droppedServer(dragEl, dropEl)'>
 			<p>
 				worstImbalance: {{dataServer.worstImbalance}} kg <br>
 				Servers:

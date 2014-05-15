@@ -81,7 +81,9 @@ body{
 }
 
 #serverContainer {
-	
+	height: 100%;
+	border: 1px dashed black;
+	margin-top: 20px;
 }
 #serverContainer li{
 	list-style : none;
