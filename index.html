@@ -8,8 +8,8 @@
 </head>
 
 <body ng-app="MonApp">
-	<div ng-controller="MainController" id="main-container" class="row">
-		<div class="col-md-12 col-md-offset-4">
+	<div ng-controller="MainController" id="main-container">
+		<div class="col-md-8 col-md-offset-2">
 		<h2>Bienvenue sur JSBase</h2>
 		<div id="button-zone">
 			<button  value=" Send" class="btn btn-primary" type="submit">Sauvegarder les modifications</button>
@@ -17,34 +17,43 @@
 		</div>
 		<div id="serversSlider">
 			<ul>
-				<li ng-repeat="server in dataServer.servers" class="serverSlider" ng-style="serverWeight(server.weight)">
+				<li ng-repeat="server in dataServer.servers" class="serverSlider" >
 					id: {{server.id}} <br>
 					weight: {{server.weight}}
+					<br>
 					<img src="img/server.png" alt="serverSlider" />
+
+					<progressbar class="progress-striped active" value="weightPercent(server.weight,totalWeight)" type="{{weightWarningType(server.weight,totalWeight)}}"></progressbar>
 				</li>
 			</ul>
 		</div>
-		<div id ="container">
+		<div id ="serverContainer">
 			<p>
 				worstImbalance: {{dataServer.worstImbalance}} kg <br>
 				Servers:
-				<ul>
-				<li ng-repeat="server in dataServer.servers" class="server">
-					<img src="img/server.png" alt="server" />
-					<span class="server-id">
-						id: {{server.id}} <br>
-						weight: {{server.weight}} kg
-					</span>
-					<ul class="shards" x-lvl-drop-target='true' x-on-drop='dropped(dragEl, dropEl)' serverWeight="{{server.weight}}" serverId="{{server.id}}"> Shards :
-						
-						<li ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}">
-							id: {{shard.id}} <br/>
-							weight: {{shard.weight}}kg
-							<progressbar class="progress-striped active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
-						</li>
-					</ul>
-				</li>
-				</ul>
+				
+				<div ng-repeat="chunkServer in splitServers">
+					<div class="row">
+						<div ng-repeat="server in chunkServer" class="col-md-3">
+							<div class="server">
+							<!-- <div ng-repeat="server in dataServer.servers" class="col-md-4"> -->
+								<img src="img/server.png" alt="server" />
+								<span class="server-id">
+									id: {{server.id}} <br>
+									weight: {{server.weight}} kg
+								</span>
+								<ul class="shards" x-lvl-drop-target='true' x-on-drop='dropped(dragEl, dropEl)' serverWeight="{{server.weight}}" serverId="{{server.id}}"> Shards :
+									
+									<li ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}">
+										id: {{shard.id}} <br/>
+										weight: {{shard.weight}}kg
+										<progressbar class="progress-striped active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 			</p>
 		</div>
 		</div>

@@ -7,7 +7,7 @@ body{
 	height  : 100%;
 	margin  : auto;
     padding : auto;
-    width   : 800px;
+    
 }
 
 #main-container {
@@ -22,7 +22,7 @@ body{
 	display: block;
 	height : 130px;
 	overflow: auto;
-	background-color: grey;
+	background-color: #D3D3D3;
 }
 #serversSlider ul {
 	white-space: nowrap;
@@ -32,14 +32,14 @@ body{
 	list-style: none;
 }
 #serversSlider img {
-	float: right;
+	
 	width: 50%;
-	height: 50%;
+	height: 35%;
 }
 .serverSlider {
 	display: inline-block;
 	width: 80px;
-	height: 78px;
+	height: 100px;
 	
 	margin-right: 10px;
 	padding-left: 5px;
@@ -47,14 +47,23 @@ body{
 	border: 1px solid black;
 }
 
+/*
 .server {
-	display      : block;
-	float        : left;
+	display      : inline-block;
+	float        : left; 
 	margin-right : 10px;
 	padding-left : 5px;
 	padding-right: 5px;
+	padding-top : 0;
 	border       : 1px solid black;
 	width		 : 200px; 
+}
+*/
+.server {
+	border       : 1px solid black;
+	padding-right: 20px;
+	padding-left: 20px;
+	
 }
 .server-id {
 	color : blue;
@@ -65,16 +74,19 @@ body{
 	margin-bottom: 10px;
 	display: block;
 	background-color: #D3D3D3;
+
+	-moz-border-radius:10px 0;
+	-webkit-border-radius:10px 0;
+	border-radius:10px 0;
 }
 
-#container {
-	display: block;
-	width: 800px;
+#serverContainer {
+	
 }
-#container li{
+#serverContainer li{
 	list-style : none;
 }
-#container img {
+#serverContainer img {
 	width : 25%;
 	height: 25%;
 }

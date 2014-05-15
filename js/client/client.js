@@ -24,6 +24,9 @@ app.controller('MainController',function ($scope, NetFactory){
 		//Partie pour récupération de données depuis le web
 		$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
 			$scope.dataServer = dataServer;
+			splitServers();
+			console.log('split fait');
+			var totalWeight = 0;
 			
 			angular.forEach($scope.dataServer.servers, function(server, index){
 				var tmpWeightValue = 0;
@@ -31,8 +34,9 @@ app.controller('MainController',function ($scope, NetFactory){
 					tmpWeightValue = tmpWeightValue + parseInt(shard.weight);
 				});
 				server.weight = tmpWeightValue;
+				totalWeight = totalWeight + parseInt(tmpWeightValue);
 			});
-			
+			$scope.totalWeight = totalWeight;
 		}, function(msg){
 			alert(msg);
 		});
@@ -102,7 +106,9 @@ app.controller('MainController',function ($scope, NetFactory){
         	percentValue = (shardWeight * 100) / serverWeight;
         	$scope.weightWarningType(weight, sWeight);
         	return percentValue;
-        }
+        };
+        
+
         $scope.weightWarningType = function(weight, sWeight) {
         	var type;
         	var percentValue = 0;
@@ -122,7 +128,7 @@ app.controller('MainController',function ($scope, NetFactory){
 		    }
         	return type;
 
-        }
+        };
         $scope.serverWeight = function(serverWeight) {
 			var tmpTotalWeight = 0;
 			angular.forEach($scope.dataServer.servers, function(server, index){
@@ -132,7 +138,26 @@ app.controller('MainController',function ($scope, NetFactory){
         	return {  
         		'background-color': 'hsl(2, 100%,'+percentValue+'%)'
         	};
-        }
+        };
+
+        splitServers = function(){
+        	compSet = [];
+        	$scope.splitServers = [];
+        	
+        	angular.forEach($scope.dataServer.servers, function(serv,index){
+        		var server = $scope.dataServer.servers[index];
+        		compSet.push(server);
+
+				if( ((index+1) % 4) == 0){
+					console.log(index);
+				    $scope.splitServers.push(compSet);
+				    compSet = [];
+				}
+				
+        	});
+        	$scope.splitServers.push(compSet);
+        	console.log($scope.splitServers);
+        };
 	}
 );
 

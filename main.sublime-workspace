@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"tmp",
+				"tmpWeightValue"
+			],
+			[
 				"weight",
 				"weightWarningType"
 			],
@@ -14,10 +18,6 @@
 			[
 				"margin",
 				"margin-bottom"
-			],
-			[
-				"tmp",
-				"tmpTotalWeight"
 			],
 			[
 				"server",
@@ -203,7 +203,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 2506,
+				"buffer_size": 3635,
 				"line_ending": "Windows"
 			}
 		},
@@ -211,7 +211,7 @@
 			"file": "css/style.css",
 			"settings":
 			{
-				"buffer_size": 1283,
+				"buffer_size": 1279,
 				"line_ending": "Windows"
 			}
 		},
@@ -219,8 +219,16 @@
 			"file": "js/client/client.js",
 			"settings":
 			{
-				"buffer_size": 5673,
+				"buffer_size": 5851,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "tmp/FormeJsonCluster.json",
+			"settings":
+			{
+				"buffer_size": 1895,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -327,26 +335,27 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2506,
+						"buffer_size": 3635,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1599,
-								1599
+								1315,
+								1315
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 540.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -361,26 +370,27 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1283,
+						"buffer_size": 1279,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								925,
-								925
+								699,
+								699
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/CSS/CSS.tmLanguage"
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 702.0,
+						"translation.y": 756.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -389,15 +399,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5673,
+						"buffer_size": 5851,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4132,
-								4132
+								4863,
+								4863
 							]
 						],
 						"settings":
@@ -406,10 +416,40 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2052.0,
+						"translation.y": 2376.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "tmp/FormeJsonCluster.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1895,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1167,
+								1167
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 648.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -443,7 +483,7 @@
 		"cols":
 		[
 			0.0,
-			0.523912592098,
+			0.481021875295,
 			1.0
 		],
 		"rows":
