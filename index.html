@@ -40,17 +40,19 @@
 					<div ng-repeat="chunkServer in splitServers">
 						<div class="row">
 							<div ng-repeat="server in chunkServer" class="col-md-3">
-								<div class="server shards" x-lvl-drop-target='true' x-on-drop='dropped(dragEl, dropEl)' serverWeight="{{server.weight}}" serverId="{{server.id}}">
-									<img src="img/server.png" alt="server" />
-									<span class="server-id">
-										id: {{server.id}} <br>
-										weight: {{server.weight}} kg
-									</span>
-										<div ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}">
-											id: {{shard.id}} <br/>
-											weight: {{shard.weight}}kg
-											<progressbar class="progress-striped active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
-										</div>
+								<div class="shards" x-lvl-drop-target='true' x-on-drop='dropped(dragEl, dropEl)' serverWeight="{{server.weight}}" serverId="{{server.id}}">
+									<div class="serverHeader" serverId="{{server.id}}" x-lvl-draggable='true'>
+										<img src="img/server.png" alt="server" />
+										<span class="server-id">
+											id: {{server.id}} <br>
+											weight: {{server.weight}} kg
+										</span>
+									</div>
+									<div ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}">
+										id: {{shard.id}} <br/>
+										weight: {{shard.weight}}kg
+										<progressbar class="progress-striped active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -59,8 +61,8 @@
 			</div>
 		</div>
 		<div id="rightPanel" class="col-md-2 panelSide">
-			<H1>droite</H1>
-			<div id="trash">
+			<H1>Droite</H1>
+			<div id="trash" x-lvl-drop-target='true' x-on-drop='droppedToRemove(dragEl, dropEl)'>
 				<img src="img/server-remove.png" alt="server-remove">
 				<span class="removeServerText">Retirer serveur</span>
 			</div>
@@ -84,7 +86,7 @@ barre de poid par rapport max/moyenne //// FAIT ///
 
 locker un shard
 
-virer un server de la zone
+virer un server de la zone  /// FAIT ///
 
 script auto lancé avec bouton
 

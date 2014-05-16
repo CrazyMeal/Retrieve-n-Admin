@@ -1,6 +1,13 @@
+
+
 jQuery.event.props.push('dataTransfer');
 var app = angular.module('MonApp',['lvl.directives.dragdrop','ui.bootstrap']);
-
+/*
+app.config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+}]);
+*/
 app.factory('NetFactory', function($http, $q){
 	var factory = {
 		getServerDatas : function(){
@@ -47,19 +54,6 @@ app.controller('MainController',function ($scope, NetFactory){
 			$scope.dataServer = dataServer;
 			$scope.serversToSplit = [];
 			
-			/*
-			var totalWeight = 0;
-			
-			angular.forEach($scope.dataServer.servers, function(server, index){
-				var tmpWeightValue = 0;
-				angular.forEach(server.shards, function(shard, index){
-					tmpWeightValue = tmpWeightValue + parseInt(shard.weight);
-				});
-				server.weight = tmpWeightValue;
-				totalWeight = totalWeight + parseInt(tmpWeightValue);
-			});
-			$scope.totalWeight = totalWeight;
-			*/
 			NetFactory.calculateDatas($scope);
 
 			calculateWorstImbalance();
@@ -116,10 +110,10 @@ app.controller('MainController',function ($scope, NetFactory){
 			if( (drop.attr("serverId") != drag.attr("serverId")) && (drag.hasClass("shard") )){
 				if(drop.hasClass("shards")){
 					modifyServer(drop.attr("serverId"),drag);
+					calculateWorstImbalance();
+					$scope.$apply();
 				}
 			}
-			calculateWorstImbalance();
-			$scope.$apply();
 		};
 
 		// Partie pour le drop de server dans la zone de manip
@@ -127,14 +121,34 @@ app.controller('MainController',function ($scope, NetFactory){
 			//console.log('fonction droppedServer');
 			var drop = angular.element(dropEl);
 			var drag = angular.element(dragEl);
-			angular.forEach($scope.dataServer.servers, function(server, index){
+			if(drag.hasClass("serverSlider")){
+				angular.forEach($scope.dataServer.servers, function(server, index){
 				if(server.id == drag.attr('serverId')){
 					if($.inArray(server, $scope.serversToSplit) == -1){
 						$scope.serversToSplit.push(server);
 					}
 				}
-			});
+				});
+				splitServers();
+				$scope.$apply();
+			}
+		};
+		$scope.droppedToRemove = function(dragEl, dropEl) {
+			//console.log('fonction droppedServer');
 			splitServers();
+			var drop = angular.element(dropEl);
+			var drag = angular.element(dragEl);
+			if(drag.hasClass("serverHeader")){
+				angular.forEach($scope.serversToSplit, function(server, index){
+					if(server.id == drag.attr("serverId")){
+							$scope.serversToSplit.splice(index,1);
+						}
+				});
+			}
+
+
+			splitServers();
+			console.log($scope.splitServers);
 			$scope.$apply();
 		};
 
@@ -233,9 +247,6 @@ app.controller('MainController',function ($scope, NetFactory){
         };
 	}
 );
-/*
-app.config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
- }]);
- */
+
+
+ 
