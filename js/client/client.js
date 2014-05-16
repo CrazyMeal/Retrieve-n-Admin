@@ -139,7 +139,7 @@ app.controller('MainController',function ($scope, NetFactory){
 		};
 
         $scope.weightPercent = function(weight, sWeight) {
-        	console.log('fonction weightPercent');
+        	//console.log('fonction weightPercent');
         	var percentValue = 0;
         	var shardWeight = parseInt(weight);
         	var serverWeight = parseInt(sWeight);

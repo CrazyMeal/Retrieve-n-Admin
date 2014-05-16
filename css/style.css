@@ -7,13 +7,44 @@ body{
 	height  : 100%;
 	margin  : auto;
     padding : auto;
-    
 }
+.panelSide {
+	float: left;
+	height: 100vh;
+	background-color: #D3D3D3;
+}
+#leftPanel {
 
+}
+#rightPanel {
+
+}
+#trash {
+	background-color: #f1f1f1;
+	height: 100px;
+
+	border: 5px dashed  #fafafa;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+}
+#trash img {
+	float: right;
+	width: 50px;
+	height: 50px;
+	margin-top: 20px;
+	margin-right: 10px;
+}
+.removeServerText {
+	font-weight: bold;
+	color: #7e7e7e;
+	float: left;
+	padding-top: 35px;
+	padding-left: 15px;
+}
 #main-container {
 	margin-left : auto;
 	margin-right: auto;
-
 }
 #button-zone {
 	margin-bottom: 5px;
@@ -47,18 +78,6 @@ body{
 	border: 1px solid black;
 }
 
-/*
-.server {
-	display      : inline-block;
-	float        : left; 
-	margin-right : 10px;
-	padding-left : 5px;
-	padding-right: 5px;
-	padding-top : 0;
-	border       : 1px solid black;
-	width		 : 200px; 
-}
-*/
 .server {
 	border       : 1px solid black;
 	padding-right: 20px;
