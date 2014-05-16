@@ -23,20 +23,34 @@
 					<br>
 					<img src="img/server.png" alt="serverSlider"/>
 
-					<progressbar class="progress-striped active" value="weightPercent(server.weight,totalWeight)" type="{{weightWarningType(server.weight,totalWeight)}}"></progressbar>
+					<progressbar class="progress-striped active" value="weightPercent(server.weight,worstWeight)" type="{{weightBalanceWarningType(server.weight,server.id)}}"></progressbar>
 				</li>
 			</ul>
 		</div>
 		<div id ="serverContainer" x-lvl-drop-target='true' x-on-drop='droppedServer(dragEl, dropEl)'>
 			<p>
-				worstImbalance: {{dataServer.worstImbalance}} kg <br>
+				worstImbalance: {{worstImbalance}} kg <br>
+				average: {{average}}<br>
 				Servers:
 				
 				<div ng-repeat="chunkServer in splitServers">
 					<div class="row">
 						<div ng-repeat="server in chunkServer" class="col-md-3">
+							<div class="server shards" x-lvl-drop-target='true' x-on-drop='dropped(dragEl, dropEl)' serverWeight="{{server.weight}}" serverId="{{server.id}}">
+								<img src="img/server.png" alt="server" />
+								<span class="server-id">
+									id: {{server.id}} <br>
+									weight: {{server.weight}} kg
+								</span>
+									<div ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}">
+										id: {{shard.id}} <br/>
+										weight: {{shard.weight}}kg
+										<progressbar class="progress-striped active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
+									</div>
+							</div>
+
+							<!--
 							<div class="server">
-							<!-- <div ng-repeat="server in dataServer.servers" class="col-md-4"> -->
 								<img src="img/server.png" alt="server" />
 								<span class="server-id">
 									id: {{server.id}} <br>
@@ -51,6 +65,7 @@
 									</li>
 								</ul>
 							</div>
+							-->
 						</div>
 					</div>
 				</div>
@@ -70,3 +85,21 @@
 	<script src="js/dragAndDrop/lvl-drag-drop.js"></script>
 </body>
 </html>
+
+<!--
+barre de poid par rapport max/moyenne
+
+locker un shard
+
+virer un server de la zone
+
+script auto lancé avec bouton
+
+on selectionne les tables de travaille et les region de celle-ci sont affichée
+
+quand on arrive on doit afficher toutes les tables (bouton ..)
+
+pouvoir deplacer dans la zone de manip
+
+possibilite de split une region
+-->

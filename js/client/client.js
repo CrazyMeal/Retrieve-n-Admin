@@ -5,6 +5,7 @@ app.factory('NetFactory', function($http, $q){
 	var factory = {
 		getServerDatas : function(){
 			var deferred = $q.defer();
+			// http://10.75.0.168:8080/aboutCluster
 			$http({method: 'GET', url: 'tmp/FormeJsonCluster.json'})
 				.success(function(data, status){
 					factory.dataServer = data;
@@ -14,6 +15,26 @@ app.factory('NetFactory', function($http, $q){
 					deferred.reject('Impossible de recuperer les datas');
 				});
 			return deferred.promise;
+		},
+		calculateDatas : function(scope){
+
+			var totalWeight = 0;
+			var num = 0;
+			var denum = scope.dataServer.servers.length;
+
+			angular.forEach(scope.dataServer.servers, function(server, index){
+
+				var tmpWeightValue = 0;
+				angular.forEach(server.shards, function(shard, index){
+					tmpWeightValue = tmpWeightValue + parseInt(shard.weight);
+				});
+				server.weight = tmpWeightValue;
+				num = num + tmpWeightValue;
+
+				totalWeight = totalWeight + parseInt(tmpWeightValue);
+			});
+			scope.totalWeight = totalWeight;
+			scope.average = num / denum;
 		}
 	};
 	return factory;
@@ -25,7 +46,8 @@ app.controller('MainController',function ($scope, NetFactory){
 		$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
 			$scope.dataServer = dataServer;
 			$scope.serversToSplit = [];
-			//splitServers();
+			
+			/*
 			var totalWeight = 0;
 			
 			angular.forEach($scope.dataServer.servers, function(server, index){
@@ -37,12 +59,16 @@ app.controller('MainController',function ($scope, NetFactory){
 				totalWeight = totalWeight + parseInt(tmpWeightValue);
 			});
 			$scope.totalWeight = totalWeight;
+			*/
+			NetFactory.calculateDatas($scope);
+
+			calculateWorstImbalance();
 		}, function(msg){
 			alert(msg);
 		});
 
 		modifyServer = function(idDroppedServer, draggedElement){
-			
+			//console.log('fonction modifyServer');
 			// Calcul du nouveau poid du server de destination
 			angular.forEach($scope.dataServer.servers, function(value, key){
 				if(value.id == idDroppedServer){
@@ -80,25 +106,25 @@ app.controller('MainController',function ($scope, NetFactory){
 			$scope.$apply();
 		};
 
-		// Partie pour gérer le drag and drop
+		// Partie pour gérer le drag and drop des regions
 		$scope.dropped = function(dragEl, dropEl) {
+			//console.log('fonction dropped');
 			var drop = angular.element(dropEl);
 			var drag = angular.element(dragEl);
 			
 			console.log("The element " + drag.attr('id') + " has been dropped on " + drop.attr("id") + "!");
 			if( (drop.attr("serverId") != drag.attr("serverId")) && (drag.hasClass("shard") )){
 				if(drop.hasClass("shards")){
-
 					modifyServer(drop.attr("serverId"),drag);
-
-					var newLightnessValue = 100 - (drag.attr("weight") * 45 / drop.attr("serverWeight"));
-				} else {
-					drop.replaceWith(drag);
 				}
 			}
+			calculateWorstImbalance();
+			$scope.$apply();
 		};
 
+		// Partie pour le drop de server dans la zone de manip
 		$scope.droppedServer = function(dragEl, dropEl) {
+			//console.log('fonction droppedServer');
 			var drop = angular.element(dropEl);
 			var drag = angular.element(dragEl);
 			angular.forEach($scope.dataServer.servers, function(server, index){
@@ -113,6 +139,7 @@ app.controller('MainController',function ($scope, NetFactory){
 		};
 
         $scope.weightPercent = function(weight, sWeight) {
+        	console.log('fonction weightPercent');
         	var percentValue = 0;
         	var shardWeight = parseInt(weight);
         	var serverWeight = parseInt(sWeight);
@@ -124,6 +151,7 @@ app.controller('MainController',function ($scope, NetFactory){
         
 
         $scope.weightWarningType = function(weight, sWeight) {
+        	//console.log('fonction weightWarningType');
         	var type;
         	var percentValue = 0;
         	var shardWeight = parseInt(weight);
@@ -141,20 +169,30 @@ app.controller('MainController',function ($scope, NetFactory){
 		      type = 'danger';
 		    }
         	return type;
-
         };
-        $scope.serverWeight = function(serverWeight) {
-			var tmpTotalWeight = 0;
-			angular.forEach($scope.dataServer.servers, function(server, index){
-				tmpTotalWeight = tmpTotalWeight + parseInt(server.weight);
-			});
-			var percentValue = 100 - (serverWeight * 60 / tmpTotalWeight);
-        	return {  
-        		'background-color': 'hsl(2, 100%,'+percentValue+'%)'
-        	};
+        $scope.weightBalanceWarningType = function(weight, serverId) {
+        	//console.log('fonction weightBalanceWarningType');
+        	var type;
+        	var average = $scope.average;
+        	var shardWeight = parseInt(weight);
+			
+			var imbalancePercent = (Math.abs((shardWeight - average)) * 100) / $scope.worstImbalance;
+        	var averagePercent = (average * 100) / $scope.worstImbalance;
+
+        	if (imbalancePercent < 25) {
+		      type = 'success';
+		    } else if (imbalancePercent < 50) {
+		      type = 'info';
+		    } else if (imbalancePercent < 75) {
+		      type = 'warning';
+		    } else {
+		      type = 'danger';
+		    }
+        	return type;
         };
 
         splitServers = function(){
+        	//console.log('fonction splitServers');
         	compSet = [];
         	$scope.splitServers = [];
         	
@@ -169,6 +207,29 @@ app.controller('MainController',function ($scope, NetFactory){
 				
         	});
         	$scope.splitServers.push(compSet);
+        };
+
+        calculateWorstImbalance = function(){
+        	//console.log('fonction calculateWorstImbalance');
+        	var worstWeight = 0;
+        	var worstImbalance = 0;
+        	angular.forEach($scope.dataServer.servers, function(server, index){
+        		if(server.weight > worstWeight){
+        			worstWeight = parseInt(server.weight);
+        		}
+        		if( Math.abs(parseInt(server.weight) - $scope.average) > worstImbalance) {
+        			worstImbalance = Math.abs(parseInt(server.weight) - $scope.average);
+        		}
+        	});
+        	$scope.worstImbalance = worstImbalance;
+        	$scope.worstWeight = worstWeight;
+        	$scope.firstLoop = true;
+        	if($scope.firstLoop){
+        		$scope.firstLoop = false;
+        	} else {
+        		$scope.$apply();
+        	}
+        	
         };
 	}
 );
