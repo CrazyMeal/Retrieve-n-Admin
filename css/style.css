@@ -88,6 +88,7 @@ body{
 }
 .server-id {
 	float: right;
+
 }
 .serverHeader {
 	display: block;
@@ -99,8 +100,8 @@ body{
 .shard {
 	display: block;
 	width: 100%;
-	padding-bottom: 1px;
-	margin-bottom: 10px;
+	padding-bottom: 0.3px;
+	margin-bottom: 5px;
 	
 	background-color: #D3D3D3;
 

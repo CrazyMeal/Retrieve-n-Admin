@@ -41,15 +41,15 @@
 						<div class="row">
 							<div ng-repeat="server in chunkServer" class="col-md-3">
 								<div class="shards" x-lvl-drop-target='true' x-on-drop='dropped(dragEl, dropEl)' serverWeight="{{server.weight}}" serverId="{{server.id}}">
-									<div class="serverHeader" serverId="{{server.id}}" x-lvl-draggable='true' ng-click="isCollapsed = !isCollapsed">
+									<div class="serverHeader" serverId="{{server.id}}" x-lvl-draggable='true' ng-click="server.isCollapsed = !server.isCollapsed">
 										<img src="img/server.png" alt="server" />
 										<span class="server-id">
 											id: {{server.id}} <br>
 											weight: {{server.weight}} kg
 										</span>
 									</div>
-									<div ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}" collapse="isCollapsed">
-										id: {{shard.id}} <br/>
+									<div ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}" collapse="server.isCollapsed">
+										id: {{shard.id}}
 										weight: {{shard.weight}}kg
 										<progressbar class="progress-striped active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
 									</div>

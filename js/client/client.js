@@ -45,6 +45,7 @@ app.factory('NetFactory', function($http, $q){
 
 			angular.forEach(scope.dataServer.servers, function(server, value){
 				server.imbalance = calculateImbalance(server.weight);
+				server.isCollapsed = false;
 			});
 		}
 	};
@@ -234,7 +235,6 @@ app.controller('MainController',function ($scope, NetFactory){
         calculateImbalance = function(serverWeight){
         	var imbalance = 0;
         	imbalance = Math.abs((parseInt(serverWeight) - $scope.average));
-        	//console.log(imbalance);
         	return imbalance;
         }
         calculateWorstImbalance = function(){
