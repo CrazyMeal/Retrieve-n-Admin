@@ -42,6 +42,10 @@ app.factory('NetFactory', function($http, $q){
 			});
 			scope.totalWeight = totalWeight;
 			scope.average = num / denum;
+
+			angular.forEach(scope.dataServer.servers, function(server, value){
+				server.imbalance = calculateImbalance(server.weight);
+			});
 		}
 	};
 	return factory;
@@ -57,6 +61,11 @@ app.controller('MainController',function ($scope, NetFactory){
 			NetFactory.calculateDatas($scope);
 
 			calculateWorstImbalance();
+			/*
+			angular.forEach($scope.dataServer.servers, function(server, value){
+				server.imbalance = calculateImbalance(server.weight);
+			});
+		*/
 		}, function(msg){
 			alert(msg);
 		});
@@ -222,7 +231,12 @@ app.controller('MainController',function ($scope, NetFactory){
         	});
         	$scope.splitServers.push(compSet);
         };
-
+        calculateImbalance = function(serverWeight){
+        	var imbalance = 0;
+        	imbalance = Math.abs((parseInt(serverWeight) - $scope.average));
+        	//console.log(imbalance);
+        	return imbalance;
+        }
         calculateWorstImbalance = function(){
         	//console.log('fonction calculateWorstImbalance');
         	var worstWeight = 0;
