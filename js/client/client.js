@@ -257,8 +257,11 @@ app.controller('MainController',function ($scope, NetFactory){
         	} else {
         		$scope.$apply();
         	}
-        	
         };
+
+		$scope.sayHello = function(){
+			$scope.greeting = 'Hello';
+		};     
 	}
 );
 
