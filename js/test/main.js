@@ -114,4 +114,36 @@ describe('Unit: Maincontroller', function() {
 			expect(scope.greeting).toEqual('Hello');
 		}
 	);
+
+	it('Initial values',
+		function(){
+			expect(scope.worstImbalance).toEqual(49.166666666666664);
+			expect(scope.average).toEqual(57.833333333333336);
+			expect(scope.totalWeight).toEqual(347);
+		}
+	);
+
+	it('WeightPercent function',
+		function(){
+			expect(scope.weightPercent(scope.dataServer.servers[0].shards[0].weight,scope.dataServer.servers[0].weight)).toEqual(12.5);
+		}
+	);
+
+	it('WeightWarningType function',
+		function() {
+			var shardWeight = scope.dataServer.servers[0].shards[0].weight;
+			var serverWeight = scope.dataServer.servers[0].weight;
+			var returnedValue = scope.weightWarningType(shardWeight, serverWeight);
+
+			expect(returnedValue).toEqual('success');
+
+			shardWeight = scope.dataServer.servers[0].shards[1].weight;
+			returnedValue = scope.weightWarningType(shardWeight, serverWeight);
+			expect(returnedValue).toEqual('info');
+
+			shardWeight = scope.dataServer.servers[0].shards[2].weight;
+			returnedValue = scope.weightWarningType(shardWeight, serverWeight);
+			expect(returnedValue).toEqual('warning');
+		}
+	);
 })

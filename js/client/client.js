@@ -169,7 +169,7 @@ app.controller('MainController',function ($scope, NetFactory){
         	var serverWeight = parseInt(sWeight);
 
         	percentValue = (shardWeight * 100) / serverWeight;
-        	$scope.weightWarningType(weight, sWeight);
+        	//$scope.weightWarningType(weight, sWeight);
         	return percentValue;
         };
         
