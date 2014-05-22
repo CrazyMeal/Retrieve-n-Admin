@@ -17,8 +17,12 @@
   },
   "homepage": "https://github.com/CrazyMeal/JSBase",
   "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-http-server": "0.0.5",
     "karma": "^0.12.16",
     "karma-firefox-launcher": "^0.1.3",
-    "karma-jasmine": "^0.1.5"
+    "karma-jasmine": "^0.1.5",
+    "protractor": "^0.23.1",
+    "selenium-webdriver": "^2.41.0"
   }
 }

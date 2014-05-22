@@ -116,7 +116,7 @@ app.controller('MainController',function ($scope, NetFactory){
 			var drop = angular.element(dropEl);
 			var drag = angular.element(dragEl);
 			
-			console.log("The element " + drag.attr('id') + " has been dropped on " + drop.attr("id") + "!");
+			//console.log("The element " + drag.attr('id') + " has been dropped on " + drop.attr("id") + "!");
 			if( (drop.attr("serverId") != drag.attr("serverId")) && (drag.hasClass("shard") )){
 				if(drop.hasClass("shards")){
 					modifyServer(drop.attr("serverId"),drag);
@@ -194,7 +194,7 @@ app.controller('MainController',function ($scope, NetFactory){
 		    }
         	return type;
         };
-        $scope.weightBalanceWarningType = function(weight, serverId) {
+        $scope.weightBalanceWarningType = function(weight) {
         	//console.log('fonction weightBalanceWarningType');
         	var type;
         	var average = $scope.average;

@@ -17,7 +17,7 @@
 			<h1>Bienvenue sur JSBase</h1>
 			<div id="button-zone">
 				<button  value=" Send" class="btn btn-primary" type="submit">Sauvegarder les modifications</button>
-				<button  value=" Send" class="btn btn-primary" type="submit">Appliquer les modifications</button>
+				<button  value=" Send2" class="btn btn-primary" type="submit" name="test">Appliquer les modifications</button>
 			</div>
 			<div id="serversSlider">
 				<ul>
@@ -27,7 +27,7 @@
 						<br>
 						<img src="img/server.png" alt="serverSlider"/>
 
-						<progressbar class="progress-striped active" value="weightPercent(server.weight,worstWeight)" type="{{weightBalanceWarningType(server.weight,server.id)}}"></progressbar>
+						<progressbar class="progress-striped active" value="weightPercent(server.weight,worstWeight)" type="{{weightBalanceWarningType(server.weight)}}"></progressbar>
 					</li>
 				</ul>
 			</div>

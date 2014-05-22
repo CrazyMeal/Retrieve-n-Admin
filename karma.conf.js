@@ -20,7 +20,7 @@ module.exports = function(config) {
       './js/dragAndDrop/*.js',
       './js/ui-bootstrap/*.js',
       './js/client/client.js',
-      './js/test/main.js'
+      './js/test/unit/main.js'
 
     ],
 

@@ -99,6 +99,8 @@ describe('Unit: Maincontroller', function() {
 			ctrl = $controller('MainController', { $scope: scope });
 			scope.$digest();
 			httpBackend.flush();
+
+
 		})
 	);
 	
@@ -144,6 +146,32 @@ describe('Unit: Maincontroller', function() {
 			shardWeight = scope.dataServer.servers[0].shards[2].weight;
 			returnedValue = scope.weightWarningType(shardWeight, serverWeight);
 			expect(returnedValue).toEqual('warning');
+		}
+	);
+
+	it('WeightBalanceWarningType', 
+		function () {
+			var serverWeight = scope.dataServer.servers[0].weight;
+			var returnedValue = scope.weightBalanceWarningType(serverWeight);
+
+			expect(returnedValue).toEqual('info');
+
+			serverWeight = scope.dataServer.servers[1].weight;
+			returnedValue = scope.weightBalanceWarningType(serverWeight);
+			expect(returnedValue).toEqual('success');
+
+			serverWeight = scope.dataServer.servers[2].weight;
+			returnedValue = scope.weightBalanceWarningType(serverWeight);
+			expect(returnedValue).toEqual('danger');
+		}
+	);
+
+	it('Calculate Imbalance function',
+		function() {
+			var serverWeight = scope.dataServer.servers[0].weight;
+			var returnedValue = calculateImbalance(serverWeight);
+
+			expect(returnedValue).toEqual(22.166666666666664);
 		}
 	);
 })

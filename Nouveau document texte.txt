@@ -1,0 +1,12 @@
+pour l'install protractor
+
+sous windows: node./node_modules/protractor/bin/webdriver-manager update
+
+lancer server http:
+start grunt http-server:dev
+
+lancer selenium:
+start node ./node_modules/protractor/bin/webdriver-manager start
+
+lancer les test d'integration
+node ./node_modules/protractor/bin/protractor protractor_conf.js
