@@ -9,14 +9,15 @@
 
 <body ng-app="MonApp">
 	<div ng-controller="MainController" id="main-container">
+		<!--
 		<div id="leftPanel" class="col-md-2 panelSide">
 			<H1>Gauche</H1>
 		</div>
-
-		<div class="col-md-8 ">
+	-->
+		<div class="col-md-9 ">
 			<h1>Bienvenue sur JSBase</h1>
 			<div id="button-zone">
-				<button  value=" Send" class="btn btn-primary" type="submit">Sauvegarder les modifications</button>
+				<button serverId="300" value=" Send" class="btn btn-primary" type="submit" onclick="window.location='http://google.com';">Sauvegarder les modifications</button>
 				<button  value=" Send2" class="btn btn-primary" type="submit" name="test">Appliquer les modifications</button>
 			</div>
 			<div id="serversSlider">
@@ -32,7 +33,7 @@
 				</ul>
 			</div>
 			<div id ="serverContainer" x-lvl-drop-target='true' x-on-drop='droppedServer(dragEl, dropEl)'>
-				<p>
+				<p id="testManip">
 					worstImbalance: {{worstImbalance}} kg <br>
 					average: {{average}}<br>
 					Servers:
@@ -60,15 +61,27 @@
 				</p>
 			</div>
 		</div>
-		<div id="rightPanel" class="col-md-2 panelSide">
-			<H1>Droite</H1>
+		<div id="rightPanel" class="col-md-3 panelSide">
 			<div id="trash" x-lvl-drop-target='true' x-on-drop='droppedToRemove(dragEl, dropEl)'>
 				<img src="img/server-remove.png" alt="server-remove">
 				<span class="removeServerText">Retirer serveur</span>
 			</div>
+			<div id="changesZone">
+				<h4>Changements effectués</h4>
+				<ul>
+					<li ng-repeat="change in changes">
+						Shard {{change.idShard}} from {{change.idOrigin}} to {{change.idDest}}
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
-	
+	<script type="text/javascript">
+	    function redirect()
+	    {
+		    window.location("www.google.com");
+	    }
+	</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="js/client/client.js"></script>

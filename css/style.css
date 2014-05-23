@@ -15,12 +15,7 @@ body{
 	height: 100vh;
 	background-color: #D3D3D3;
 }
-#leftPanel {
 
-}
-#rightPanel {
-
-}
 #trash {
 	background-color: #f1f1f1;
 	height: 100px;
@@ -128,8 +123,13 @@ body{
 	width: 800px;
 }
 
+#changesZone {
+	margin-top: 20px;
+}
 
-
+#changesZone ul li{
+	list-style: none;
+}
 [draggable] {
     cursor: move;
 }

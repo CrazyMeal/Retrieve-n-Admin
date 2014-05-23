@@ -58,7 +58,7 @@ app.controller('MainController',function ($scope, NetFactory){
 		$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
 			$scope.dataServer = dataServer;
 			$scope.serversToSplit = [];
-			
+			$scope.changes = [];
 			NetFactory.calculateDatas($scope);
 
 			calculateWorstImbalance();
@@ -110,6 +110,35 @@ app.controller('MainController',function ($scope, NetFactory){
 			$scope.$apply();
 		};
 
+		notifyChanges = function(drag, drop){
+			change = {
+				idShard: drag.attr("shardId"),
+				idOrigin: drag.attr("serverId"),
+				idDest: drop.attr("serverId")
+			}
+			if($scope.changes.length == 0){
+				$scope.changes.push(change);
+			} else {
+				var containChange = false;
+				var indexFound = 0;
+				angular.forEach($scope.changes, function(changeInList, index){
+					if(change.idShard == changeInList.idShard){
+						containChange = true;
+						indexFound = index;
+					}
+				});
+				if(containChange){
+					if($scope.changes[indexFound].idOrigin == change.idDest){
+						$scope.changes.splice(indexFound, 1);
+					} else {
+						$scope.changes[indexFound].idDest = change.idDest;
+					}
+				} else {
+					$scope.changes.push(change);
+				}
+			}
+			change = {};
+		}
 		// Partie pour gérer le drag and drop des regions
 		$scope.dropped = function(dragEl, dropEl) {
 			//console.log('fonction dropped');
@@ -119,6 +148,7 @@ app.controller('MainController',function ($scope, NetFactory){
 			//console.log("The element " + drag.attr('id') + " has been dropped on " + drop.attr("id") + "!");
 			if( (drop.attr("serverId") != drag.attr("serverId")) && (drag.hasClass("shard") )){
 				if(drop.hasClass("shards")){
+					notifyChanges(drag,drop);
 					modifyServer(drop.attr("serverId"),drag);
 					calculateWorstImbalance();
 					$scope.$apply();
