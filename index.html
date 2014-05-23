@@ -17,8 +17,9 @@
 		<div class="col-md-9 ">
 			<h1>Bienvenue sur JSBase</h1>
 			<div id="button-zone">
-				<button serverId="300" value=" Send" class="btn btn-primary" type="submit" onclick="window.location='http://google.com';">Sauvegarder les modifications</button>
-				<button  value=" Send2" class="btn btn-primary" type="submit" name="test">Appliquer les modifications</button>
+				<a serverId="300" value=" Send" class="btn btn-primary" type="submit" onclick="window.location='http://google.com';">Save modifications</a>
+				<a  value=" Send2" class="btn btn-primary" type="submit" name="test">Apply modifications</a>
+				<a value="refreshList" class="btn btn-default">Reffresh list</a>
 			</div>
 			<div id="serversSlider">
 				<ul>
@@ -64,15 +65,25 @@
 		<div id="rightPanel" class="col-md-3 panelSide">
 			<div id="trash" x-lvl-drop-target='true' x-on-drop='droppedToRemove(dragEl, dropEl)'>
 				<img src="img/server-remove.png" alt="server-remove">
-				<span class="removeServerText">Retirer serveur</span>
+				<span class="removeServerText">Remove server</span>
 			</div>
 			<div id="changesZone">
-				<h4>Changements effectués</h4>
+				<h4 align="center">Changes done</h4>
+				<!--
 				<ul>
 					<li ng-repeat="change in changes">
 						Shard {{change.idShard}} from {{change.idOrigin}} to {{change.idDest}}
 					</li>
 				</ul>
+				-->
+				<table class="table table-striped">
+					<tr ng-repeat="change in changes">
+					<td>
+					Shard {{change.idShard}} from server {{change.idOrigin}} to server {{change.idDest}}
+					</td>
+					</tr>
+				</table>
+
 			</div>
 		</div>
 	</div>
