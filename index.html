@@ -9,21 +9,16 @@
 
 <body ng-app="MonApp">
 	<div ng-controller="MainController" id="main-container">
-		<!--
-		<div id="leftPanel" class="col-md-2 panelSide">
-			<H1>Gauche</H1>
-		</div>
-	-->
 		<div class="col-md-9 ">
 			<h1>Bienvenue sur JSBase</h1>
 			<div id="button-zone">
 				<a serverId="300" value=" Send" class="btn btn-primary" type="submit" onclick="window.location='http://google.com';">Save modifications</a>
-				<a  value=" Send2" class="btn btn-primary" type="submit" name="test">Apply modifications</a>
-				<a value="refreshList" class="btn btn-default" ng-click="refresh()">Refresh imbalance</a>
+				<a  value="apply" class="btn btn-primary" type="submit" ng-click="applyModifications()">Apply modifications</a>
+				<a value="refreshList" class="btn btn-default" ng-click="refreshBool = true">Refresh sort</a>
 			</div>
 			<div id="serversSlider">
 				<ul>
-					<li ng-repeat="server in dataServer.servers | orderBy: '-imbalance'" class="serverSlider" x-lvl-draggable='true' serverId="{{server.id}}" imbalance="{{server.imbalance}}">
+					<li ng-repeat="server in dataServer.servers | orderBy: refresh" class="serverSlider" x-lvl-draggable='true' serverId="{{server.id}}" imbalance="{{server.imbalance}}">
 						id: {{server.id}} <br>
 						weight: {{server.weight}} <br>
 						<img src="img/server.png" alt="serverSlider"/>

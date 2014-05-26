@@ -1,5 +1,3 @@
-
-
 jQuery.event.props.push('dataTransfer');
 var app = angular.module('MonApp',['lvl.directives.dragdrop','ui.bootstrap']);
 /*
@@ -13,7 +11,7 @@ app.factory('NetFactory', function($http, $q){
 		getServerDatas : function(){
 			var deferred = $q.defer();
 			// http://10.75.0.168:8080/aboutCluster
-			$http({method: 'GET', url: 'tmp/FormeJsonCluster.json'})
+			$http({method: 'GET', url: 'http://10.59.14.102:8080/aboutCluster'})
 				.success(function(data, status){
 					factory.dataServer = data;
 					deferred.resolve(factory.dataServer);
@@ -47,29 +45,46 @@ app.factory('NetFactory', function($http, $q){
 				server.imbalance = calculateImbalance(server.weight);
 				server.isCollapsed = false;
 			});
+		},
+
+		postChanges : function(scope){
+			var deferred = $q.defer();
+			$http({
+			    url: 'http://10.59.14.102:8080/applyChanges',
+			    dataType: 'json',
+			    method: 'POST',
+			    data: {'moves': scope.changes},
+			    headers: {
+			        "Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8'
+			    }
+
+			}).success(function(response){
+			}).error(function(error){
+			});
 		}
 	};
 	return factory;
 });
 
-app.controller('MainController',function ($scope, NetFactory){
+app.controller('MainController',function ($scope, $modal, NetFactory){
 		
 		//Partie pour récupération de données depuis le web
 		$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
 			$scope.dataServer = dataServer;
 			$scope.serversToSplit = [];
 			$scope.changes = [];
+			$scope.refreshBool = false;
+			$scope.refreshCount = 0;
 			NetFactory.calculateDatas($scope);
 
 			calculateWorstImbalance();
-			/*
-			angular.forEach($scope.dataServer.servers, function(server, value){
-				server.imbalance = calculateImbalance(server.weight);
-			});
-		*/
 		}, function(msg){
 			alert(msg);
 		});
+
+		$scope.applyModifications = function(){
+			NetFactory.postChanges($scope);
+		}
 
 		modifyServer = function(idDroppedServer, draggedElement){
 			//console.log('fonction modifyServer');
@@ -259,8 +274,23 @@ app.controller('MainController',function ($scope, NetFactory){
         	return type;
         };
 
-        $scope.refresh = function(){
-        	$scope.$digest();
+        $scope.refresh = function(server){
+        	if(server.savedImbalance == undefined){
+        		server.savedImbalance = server.imbalance;
+        	}
+
+        	var imbalance = server.savedImbalance;
+
+        	if($scope.refreshBool == true){
+        		server.savedImbalance = server.imbalance;
+        		imbalance = server.imbalance;
+        		$scope.refreshCount = $scope.refreshCount + 1;
+        		if($scope.refreshCount > $scope.dataServer.servers.length){
+        			$scope.refreshCount = 0;
+        			$scope.refreshBool = false;
+        		}
+        	}
+        	return -imbalance;
         }
         splitServers = function(){
         	//console.log('fonction splitServers');
