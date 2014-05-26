@@ -148,8 +148,22 @@ app.controller('MainController',function ($scope, NetFactory){
 			//console.log("The element " + drag.attr('id') + " has been dropped on " + drop.attr("id") + "!");
 			if( (drop.attr("serverId") != drag.attr("serverId")) && (drag.hasClass("shard") )){
 				if(drop.hasClass("shards")){
+					var sourceIndex, destIndex;
+					angular.forEach($scope.dataServer.servers, function(server, index){
+						if(server.id == drag.attr("serverId")){
+							sourceIndex = index;
+						}
+						if(server.id == drop.attr("serverId")){
+							destIndex = index;
+						}
+					});
+
 					notifyChanges(drag,drop);
 					modifyServer(drop.attr("serverId"),drag);
+					
+					$scope.dataServer.servers[sourceIndex].imbalance = calculateImbalance($scope.dataServer.servers[sourceIndex].weight);
+					$scope.dataServer.servers[destIndex].imbalance = calculateImbalance($scope.dataServer.servers[destIndex].weight);
+
 					calculateWorstImbalance();
 					$scope.$apply();
 				}
@@ -245,6 +259,9 @@ app.controller('MainController',function ($scope, NetFactory){
         	return type;
         };
 
+        $scope.refresh = function(){
+        	$scope.$digest();
+        }
         splitServers = function(){
         	//console.log('fonction splitServers');
         	compSet = [];
@@ -282,11 +299,13 @@ app.controller('MainController',function ($scope, NetFactory){
         	$scope.worstImbalance = worstImbalance;
         	$scope.worstWeight = worstWeight;
         	$scope.firstLoop = true;
+        	/*
         	if($scope.firstLoop){
         		$scope.firstLoop = false;
         	} else {
         		$scope.$apply();
         	}
+        	*/
         };
 
 		$scope.sayHello = function(){

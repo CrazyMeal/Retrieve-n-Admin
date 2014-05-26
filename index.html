@@ -19,14 +19,13 @@
 			<div id="button-zone">
 				<a serverId="300" value=" Send" class="btn btn-primary" type="submit" onclick="window.location='http://google.com';">Save modifications</a>
 				<a  value=" Send2" class="btn btn-primary" type="submit" name="test">Apply modifications</a>
-				<a value="refreshList" class="btn btn-default">Reffresh list</a>
+				<a value="refreshList" class="btn btn-default" ng-click="refresh()">Refresh imbalance</a>
 			</div>
 			<div id="serversSlider">
 				<ul>
 					<li ng-repeat="server in dataServer.servers | orderBy: '-imbalance'" class="serverSlider" x-lvl-draggable='true' serverId="{{server.id}}" imbalance="{{server.imbalance}}">
 						id: {{server.id}} <br>
-						weight: {{server.weight}}
-						<br>
+						weight: {{server.weight}} <br>
 						<img src="img/server.png" alt="serverSlider"/>
 
 						<progressbar class="progress-striped active" value="weightPercent(server.weight,worstWeight)" type="{{weightBalanceWarningType(server.weight)}}"></progressbar>
@@ -87,17 +86,10 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-	    function redirect()
-	    {
-		    window.location("www.google.com");
-	    }
-	</script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
 	<script src="js/client/client.js"></script>
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
 	<script src="js/ui-bootstrap/ui-bootstrap-0.11.0.min.js"></script>
 	<script src="js/ui-bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
 	<script src="js/dragAndDrop/lvl-uuid.js"></script>
