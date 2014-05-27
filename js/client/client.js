@@ -10,7 +10,8 @@ app.factory('NetFactory', function($http, $q){
 	var factory = {
 		getServerDatas : function(){
 			var deferred = $q.defer();
-			$http({method: 'GET', url: 'tmp/FormeJsonCluster.json'})
+			//http://10.59.14.102:8080/aboutCluster
+			$http({method: 'GET', url: 'http://10.59.14.102:8080/aboutCluster'})
 				.success(function(data, status){
 					factory.dataServer = data;
 					deferred.resolve(factory.dataServer);
@@ -182,6 +183,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 					$scope.$apply();
 				}
 			}
+			console.log($scope.dataServer.servers);
 		};
 
 		// Partie pour le drop de server dans la zone de manip
