@@ -42,12 +42,11 @@
 										<span class="server-id">
 											id: {{server.id}} <br>
 											weight: {{server.weight | limitTo: 10}} kg <br>
-											imb: {{server.imbalance}}<br>
-											simb: {{server.savedImbalance}}
+											<progressbar class="progress-striped active" value="weightPercent(server.weight,worstWeight)" type="{{weightBalanceWarningType(server.weight)}}"></progressbar>
 										</span>
 									</div>
 									<div ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}" collapse="server.isCollapsed">
-										<button popover-placement="right" popover="{{shard.id | limitTo: 20}}...{{shard.id | limitTo: -10}}" class="btn btn-default">ID</button>
+										<a popover-placement="right" popover="{{shard.id | limitTo: 20}}...{{shard.id | limitTo: -10}}" class="btn btn-default">ID</a>
 										weight: {{shard.weight | limitTo: 10}}kg
 										<progressbar class="progress-striped active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
 									</div>
@@ -65,17 +64,10 @@
 			</div>
 			<div id="changesZone">
 				<h4 align="center">Changes done</h4>
-				<!--
-				<ul>
-					<li ng-repeat="change in changes">
-						Shard {{change.idShard}} from {{change.idOrigin}} to {{change.idDest}}
-					</li>
-				</ul>
-				-->
 				<table class="table table-striped">
 					<tr ng-repeat="change in changes">
 					<td>
-					Shard {{change.idShard}} from server {{change.idOrigin}} to server {{change.idDest}}
+					Shard {{shard.id | limitTo: 20}}...{{shard.id | limitTo: -10}} from server {{change.idOrigin}} to server {{change.idDest}}
 					</td>
 					</tr>
 				</table>
