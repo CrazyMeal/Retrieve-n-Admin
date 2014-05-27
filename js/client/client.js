@@ -10,8 +10,7 @@ app.factory('NetFactory', function($http, $q){
 	var factory = {
 		getServerDatas : function(){
 			var deferred = $q.defer();
-			// http://10.75.0.168:8080/aboutCluster
-			$http({method: 'GET', url: 'http://10.59.14.102:8080/aboutCluster'})
+			$http({method: 'GET', url: 'tmp/FormeJsonCluster.json'})
 				.success(function(data, status){
 					factory.dataServer = data;
 					deferred.resolve(factory.dataServer);
@@ -279,18 +278,14 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
         		server.savedImbalance = server.imbalance;
         	}
 
-        	var imbalance = server.savedImbalance;
-
         	if($scope.refreshBool == true){
-        		server.savedImbalance = server.imbalance;
-        		imbalance = server.imbalance;
-        		$scope.refreshCount = $scope.refreshCount + 1;
-        		if($scope.refreshCount > $scope.dataServer.servers.length){
-        			$scope.refreshCount = 0;
-        			$scope.refreshBool = false;
-        		}
+        		angular.forEach($scope.dataServer.servers, function(server, index){
+        			server.imbalance = calculateImbalance(server.weight);
+        			server.savedImbalance = server.imbalance;
+        		});
+        		$scope.refreshBool = false;
         	}
-        	return -imbalance;
+        	return -server.savedImbalance;
         }
         splitServers = function(){
         	//console.log('fonction splitServers');

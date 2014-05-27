@@ -41,12 +41,14 @@
 										<img src="img/server.png" alt="server" />
 										<span class="server-id">
 											id: {{server.id}} <br>
-											weight: {{server.weight}} kg
+											weight: {{server.weight | limitTo: 10}} kg <br>
+											imb: {{server.imbalance}}<br>
+											simb: {{server.savedImbalance}}
 										</span>
 									</div>
 									<div ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}" collapse="server.isCollapsed">
-										id: {{shard.id}}
-										weight: {{shard.weight}}kg
+										<button popover-placement="right" popover="{{shard.id | limitTo: 20}}...{{shard.id | limitTo: -10}}" class="btn btn-default">ID</button>
+										weight: {{shard.weight | limitTo: 10}}kg
 										<progressbar class="progress-striped active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
 									</div>
 								</div>
