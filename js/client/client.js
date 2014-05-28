@@ -11,7 +11,7 @@ app.factory('NetFactory', function($http, $q){
 		getServerDatas : function(){
 			var deferred = $q.defer();
 			//http://10.59.14.102:8080/aboutCluster
-			$http({method: 'GET', url: 'http://10.59.14.102:8080/aboutCluster'})
+			$http({method: 'GET', url: 'tmp/FormeJsonCluster.json'})
 				.success(function(data, status){
 					factory.dataServer = data;
 					deferred.resolve(factory.dataServer);
@@ -84,7 +84,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 
 		$scope.applyModifications = function(){
 			NetFactory.postChanges($scope);
-		}
+		};
 
 		modifyServer = function(idDroppedServer, draggedElement){
 			//console.log('fonction modifyServer');
@@ -153,7 +153,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 				}
 			}
 			change = {};
-		}
+		};
 		// Partie pour gérer le drag and drop des regions
 		$scope.dropped = function(dragEl, dropEl) {
 			//console.log('fonction dropped');
@@ -183,7 +183,6 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 					$scope.$apply();
 				}
 			}
-			console.log($scope.dataServer.servers);
 		};
 
 		// Partie pour le drop de server dans la zone de manip
@@ -333,6 +332,48 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
         		$scope.$apply();
         	}
         	*/
+        };
+
+        $scope.removeChange = function(changeToRemove){
+        	angular.forEach($scope.changes, function(change, index){
+        		if(change.idShard == changeToRemove.idShard){
+        			$scope.changes.splice(index, 1);
+        		}
+        	});
+
+        	var indexSource, indexDest, indexToSplice;
+
+        	angular.forEach($scope.dataServer.servers, function(server, index){
+        		if(server.id == changeToRemove.idOrigin){
+        			indexSource = index;
+        		}
+        		if(server.id == changeToRemove.idDest){
+        			indexDest = index;
+        		}
+        		angular.forEach(server.shards, function(shard, indexShard){
+        			if(shard.id == changeToRemove.idShard){
+        				indexToSplice = indexShard;
+        			}
+        		});
+        	});
+        	var newShard = {
+				id : changeToRemove.idShard,
+				weight : $scope.dataServer.servers[indexDest].shards[indexToSplice].weight
+			};
+        	
+        	//Mise à jour poids
+        	$scope.dataServer.servers[indexDest].weight = $scope.dataServer.servers[indexDest].weight - newShard.weight;
+        	$scope.dataServer.servers[indexSource].weight = $scope.dataServer.servers[indexSource].weight + parseInt(newShard.weight);
+        	
+        	//Mise à jour des listes
+        	$scope.dataServer.servers[indexDest].shards.splice(indexToSplice, 1);
+        	$scope.dataServer.servers[indexSource].shards.push(newShard);
+
+        	//Mise à jour des imbalances
+        	$scope.dataServer.servers[indexSource].imbalance = calculateImbalance($scope.dataServer.servers[indexSource].weight);
+			$scope.dataServer.servers[indexDest].imbalance = calculateImbalance($scope.dataServer.servers[indexDest].weight);
+
+			calculateWorstImbalance();
         };
 
 		$scope.sayHello = function(){

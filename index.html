@@ -13,7 +13,6 @@
 			<h1>Bienvenue sur JSBase</h1>
 			<div id="button-zone">
 				<a serverId="300" value=" Send" class="btn btn-primary" type="submit" onclick="window.location='http://google.com';">Save modifications</a>
-				<a  value="apply" class="btn btn-primary" type="submit" ng-click="applyModifications()">Apply modifications</a>
 				<a value="refreshList" class="btn btn-default" ng-click="refreshBool = true">Refresh sort</a>
 			</div>
 			<div id="serversSlider">
@@ -46,9 +45,9 @@
 										</span>
 									</div>
 									<div ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}" collapse="server.isCollapsed">
-										<a popover-placement="right" popover="{{shard.id | limitTo: 20}}...{{shard.id | limitTo: -10}}" class="btn btn-default">ID</a>
+										<a popover-placement="right" popover="{{shard.id}}" class="btn btn-default">ID</a>
 										weight: {{shard.weight | limitTo: 5}}kg
-										<progressbar class="progress active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
+										<progressbar class="progress overrideProgress active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
 									</div>
 								</div>
 							</div>
@@ -67,22 +66,27 @@
 				<table class="table table-striped">
 					<tr ng-repeat="change in changes">
 					<td>
-					Shard <i>{{change.idShard | limitTo: 20}}...{{change.idShard | limitTo: -10}}</i> from server <i>{{change.idOrigin}}</i> to server <i>{{change.idDest}}</i>
+						<span class="changeContent">
+							Shard <i>{{change.idShard | limitTo: 20}}...{{change.idShard | limitTo: -10}}</i> from server <i>{{change.idOrigin}}</i> to server <i>{{change.idDest}}</i>
+						</span>
+						<a ng-click="removeChange(change)" href=""><img src="img/cancel.png"></a>
 					</td>
 					</tr>
 				</table>
-
+				<a  value="apply" class="btn btn-primary col-md-12" type="submit" ng-click="applyModifications()">Apply modifications</a>
 			</div>
 		</div>
 	</div>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+	<script src="js/local-storage/angular-local-storage.js"></script>
 	<script src="js/client/client.js"></script>
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<script src="js/ui-bootstrap/ui-bootstrap-0.11.0.min.js"></script>
 	<script src="js/ui-bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
 	<script src="js/dragAndDrop/lvl-uuid.js"></script>
 	<script src="js/dragAndDrop/lvl-drag-drop.js"></script>
+
 </body>
 </html>
 

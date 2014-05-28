@@ -10,6 +10,10 @@ body{
     padding : auto;
     min-height: 100%;
 }
+.progress.overrideProgress{
+	height: 15px;
+	margin-bottom: 10px;
+}
 .panelSide {
 	float: left;
 	height: 100vh;
@@ -138,11 +142,23 @@ body{
 #changesZone ul li{
 	list-style: none;
 }
-
-.popoverBlock{
-	display: block;
-	background-color: red;
+#changesZone img{
+	width: 15px;
+	height: 15px;
+	float: right;
 }
+.changeContent{
+	display: block;
+	float: left;
+	width: 93%;
+}
+
+.popover-content {
+	width: 100%;
+	overflow: auto;
+    color: red;
+}
+
 [draggable] {
     cursor: move;
 }
