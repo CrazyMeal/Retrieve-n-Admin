@@ -105,41 +105,39 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 
 		modifyServer = function(idDroppedServer, draggedElement){
 			//console.log('fonction modifyServer');
-			// Calcul du nouveau poid du server de destination
-			angular.forEach($scope.dataServer.servers, function(value, key){
-				if(value.id == idDroppedServer){
-					var tmpDragWeight = parseInt(draggedElement.attr("weight"));
-					var tmpDropWeight = parseInt(value.weight);
+			var indexDroppedServer, indexOriginServer, indexShardToSplice;
+			var shardFound = false;
 
-					value.weight = tmpDragWeight + tmpDropWeight;
-
-					var newShard = {
-						id : draggedElement.attr("shardId"),
-						weight : draggedElement.attr("weight")
-					};
-					value.shards.push(newShard);
+			angular.forEach($scope.dataServer.servers, function(server, index){
+				if(server.id == idDroppedServer){
+					indexDroppedServer = index;
 				}
-			});
-			// Calcul du nouveau poid du server d'origine
-			angular.forEach($scope.dataServer.servers, function(value, key){
-				if(value.id == draggedElement.attr("serverId")){
-					var tmpDragWeight = parseInt(draggedElement.attr("weight"));
-					var tmpOriginWeight = parseInt(value.weight);
-					value.weight = tmpOriginWeight - tmpDragWeight;
-
-					//On retire la region de son server d'origine
-					angular.forEach(value.shards,function(shard, index){
+				if(server.id == draggedElement.attr("serverId")){
+					indexOriginServer = index;
+				}
+				if(!shardFound){
+					angular.forEach(server.shards, function(shard, indexShard){
 						if(shard.id == draggedElement.attr("shardId")){
-							value.shards.splice(index, 1);
+							indexShardToSplice = indexShard;
+							shardFound = true;
 						}
 					});
-					//console.log(value.weight);
 				}
 			});
-			
-			//Mise a jour de l'idServer pour l'element deplacé (sinon effet de bord non maitrise)
+			//Mise à jour des poids
+			$scope.dataServer.servers[indexDroppedServer].weight = parseInt(draggedElement.attr("weight")) + parseInt($scope.dataServer.servers[indexDroppedServer].weight);
+			$scope.dataServer.servers[indexOriginServer].weight = parseInt($scope.dataServer.servers[indexOriginServer].weight) - parseInt(draggedElement.attr("weight"));
+
+			//Mise a jour des listes
+			var newShard = {
+				id : draggedElement.attr("shardId"),
+				weight : draggedElement.attr("weight")
+			};
+			$scope.dataServer.servers[indexDroppedServer].shards.push(newShard);
+			$scope.dataServer.servers[indexOriginServer].shards.splice(indexShardToSplice, 1);
+
 			draggedElement.attr("serverId", idDroppedServer);
-			$scope.$apply();
+			//$scope.$apply();
 		};
 
 		notifyChanges = function(drag, drop){
@@ -231,13 +229,10 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 						}
 				});
 			}
-
-
 			splitServers();
 			console.log($scope.splitServers);
 			$scope.$apply();
 		};
-
         $scope.weightPercent = function(weight, sWeight) {
         	//console.log('fonction weightPercent');
         	var percentValue = 0;
@@ -248,8 +243,6 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
         	//$scope.weightWarningType(weight, sWeight);
         	return percentValue;
         };
-        
-
         $scope.weightWarningType = function(weight, sWeight) {
         	//console.log('fonction weightWarningType');
         	var type;
@@ -290,7 +283,6 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 		    }
         	return type;
         };
-
         $scope.refresh = function(server){
         	if(server.savedImbalance == undefined){
         		server.savedImbalance = server.imbalance;
@@ -304,7 +296,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
         		$scope.refreshBool = false;
         	}
         	return -server.savedImbalance;
-        }
+        };
         splitServers = function(){
         	//console.log('fonction splitServers');
         	compSet = [];
@@ -326,7 +318,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
         	var imbalance = 0;
         	imbalance = Math.abs((parseInt(serverWeight) - $scope.average));
         	return imbalance;
-        }
+        };
         calculateWorstImbalance = function(){
         	//console.log('fonction calculateWorstImbalance');
         	var worstWeight = 0;
@@ -350,7 +342,6 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
         	}
         	*/
         };
-
         $scope.removeChange = function(changeToRemove){
         	angular.forEach($scope.changes, function(change, index){
         		if(change.idShard == changeToRemove.idShard){
@@ -392,7 +383,6 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 
 			calculateWorstImbalance();
         };
-
         $scope.abortChanges = function(){
 			for (var i = $scope.changes.length - 1; i >= 0; i--) {
 				$scope.removeChange($scope.changes[i]);
