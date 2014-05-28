@@ -6,6 +6,23 @@ app.config(['$httpProvider', function ($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 }]);
 */
+app.filter('orderObjectBy', function(){
+ return function(input, attribute) {
+    if (!angular.isObject(input)) return input;
+
+    var array = [];
+    for(var objectKey in input) {
+        array.push(input[objectKey]);
+    }
+
+    array.sort(function(a, b){
+        a = parseInt(a[attribute]);
+        b = parseInt(b[attribute]);
+        return a < b;
+    });
+    return array;
+ }
+});
 app.factory('NetFactory', function($http, $q){
 	var factory = {
 		getServerDatas : function(){
@@ -376,6 +393,22 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 			calculateWorstImbalance();
         };
 
+        $scope.highlightShard = function(idShard){
+        	var shardQuery = $("#serverContainer").find("[shardId='"+ idShard +"']");
+        	var shard = angular.element(shardQuery);
+        	shard.css({
+        		'background-color' : '#a8a8a8',
+        		'border': '3px solid black' 
+        	});
+        };
+        $scope.unHighlightShard = function(idShard){
+        	var shardQuery = $("#serverContainer").find("[shardId='"+ idShard +"']");
+        	var shard = angular.element(shardQuery);
+        	shard.css({
+        		'background-color' : '#dbdbdb',
+        		'border': '' 
+        	});
+        };
 		$scope.sayHello = function(){
 			$scope.greeting = 'Hello';
 		};     

@@ -44,7 +44,7 @@
 											<progressbar class="progress-striped active" value="weightPercent(server.weight,worstWeight)" type="{{weightBalanceWarningType(server.weight)}}"></progressbar>
 										</span>
 									</div>
-									<div ng-repeat="shard in server.shards" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}" collapse="server.isCollapsed">
+									<div ng-repeat="shard in server.shards | orderObjectBy: 'weight'" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}" collapse="server.isCollapsed">
 										<a popover-placement="right" popover="{{shard.id}}" class="btn btn-default">ID</a>
 										weight: {{shard.weight | limitTo: 5}}kg
 										<progressbar class="progress overrideProgress active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
@@ -67,7 +67,7 @@
 					<tr ng-repeat="change in changes">
 					<td>
 						<span class="changeContent">
-							Shard <i>{{change.idShard | limitTo: 20}}...{{change.idShard | limitTo: -10}}</i> from server <i>{{change.idOrigin}}</i> to server <i>{{change.idDest}}</i>
+							Shard <i><span ng-mouseover="highlightShard(change.idShard)" ng-mouseleave="unHighlightShard(change.idShard)">{{change.idShard | limitTo: 20}}...{{change.idShard | limitTo: -10}}</span></i> from server <i>{{change.idOrigin}}</i> to server <i>{{change.idDest}}</i>
 						</span>
 						<a ng-click="removeChange(change)" href=""><img src="img/cancel.png"></a>
 					</td>
