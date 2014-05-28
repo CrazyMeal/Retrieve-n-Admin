@@ -102,6 +102,46 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 		$scope.applyModifications = function(){
 			NetFactory.postChanges($scope);
 		};
+		$scope.automaticBalance = function(){
+			var changes = bruteForceAlgorithm.optimize($scope.dataServer);
+			angular.forEach(changes, function(change, index){
+				
+				var indexDroppedServer, indexOriginServer, indexShardToSplice;
+				var shardFound = false;
+
+				angular.forEach($scope.dataServer.servers, function(server, index){
+					if(server.id == change.idDest){
+						indexDroppedServer = index;
+					}
+					if(server.id == change.idOrigin){
+						indexOriginServer = index;
+					}
+					if(!shardFound){
+						angular.forEach(server.shards, function(shard, indexShard){
+							if(shard.id == change.idShard){
+								indexShardToSplice = indexShard;
+								shardFound = true;
+								console.log(server);
+							}
+						});
+					}
+				});
+				console.log(indexShardToSplice);
+				//Mise à jour des poids
+				$scope.dataServer.servers[indexDroppedServer].weight = parseInt($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight) + parseInt($scope.dataServer.servers[indexDroppedServer].weight);
+				$scope.dataServer.servers[indexOriginServer].weight = parseInt($scope.dataServer.servers[indexOriginServer].weight) - parseInt($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight);
+
+				//Mise a jour des listes
+				var newShard = {
+					id : change.idShard,
+					weight : $scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight
+				};
+				$scope.dataServer.servers[indexDroppedServer].shards.push(newShard);
+				$scope.dataServer.servers[indexOriginServer].shards.splice(indexShardToSplice, 1);
+				
+				notifyChanges(change.idShard, change.idOrigin, change.idDest);
+			});
+		};
 
 		modifyServer = function(idDroppedServer, draggedElement){
 			//console.log('fonction modifyServer');
@@ -139,12 +179,11 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 			draggedElement.attr("serverId", idDroppedServer);
 			//$scope.$apply();
 		};
-
-		notifyChanges = function(drag, drop){
+		notifyChanges = function(shardId, serverOriginId, serverDestId){
 			change = {
-				idShard: drag.attr("shardId"),
-				idOrigin: drag.attr("serverId"),
-				idDest: drop.attr("serverId")
+				idShard: shardId,
+				idOrigin: serverOriginId,
+				idDest: serverDestId
 			}
 			if($scope.changes.length == 0){
 				$scope.changes.push(change);
@@ -188,7 +227,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 						}
 					});
 
-					notifyChanges(drag,drop);
+					//notifyChanges(drag,drop);
+					notifyChanges(drag.attr("shardId"),drag.attr("serverId"),drop.attr("serverId"));
 					modifyServer(drop.attr("serverId"),drag);
 					
 					$scope.dataServer.servers[sourceIndex].imbalance = calculateImbalance($scope.dataServer.servers[sourceIndex].weight);
