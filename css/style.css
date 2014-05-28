@@ -150,13 +150,12 @@ body{
 .changeContent{
 	display: block;
 	float: left;
-	width: 93%;
+	width: 92%;
 }
 
 .popover-content {
 	width: 100%;
 	overflow: auto;
-    color: red;
 }
 
 [draggable] {

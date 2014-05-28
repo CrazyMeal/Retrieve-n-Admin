@@ -12,7 +12,7 @@
 		<div class="col-md-9 ">
 			<h1>Bienvenue sur JSBase</h1>
 			<div id="button-zone">
-				<a serverId="300" value=" Send" class="btn btn-primary" type="submit" onclick="window.location='http://google.com';">Save modifications</a>
+				<a serverId="300" value=" Send" class="btn btn-info" type="submit" onclick="window.location='http://google.com';">Save configuration</a>
 				<a value="refreshList" class="btn btn-default" ng-click="refreshBool = true">Refresh sort</a>
 			</div>
 			<div id="serversSlider">
@@ -69,11 +69,12 @@
 						<span class="changeContent">
 							Shard <i><span ng-mouseover="highlightShard(change.idShard)" ng-mouseleave="unHighlightShard(change.idShard)">{{change.idShard | limitTo: 20}}...{{change.idShard | limitTo: -10}}</span></i> from server <i>{{change.idOrigin}}</i> to server <i>{{change.idDest}}</i>
 						</span>
-						<a ng-click="removeChange(change)" href=""><img src="img/cancel.png"></a>
+						<a ng-click="removeChange(change)" href=""><span class="glyphicon glyphicon-remove-sign"></span></a>
 					</td>
 					</tr>
 				</table>
-				<a  value="apply" class="btn btn-primary col-md-12" type="submit" ng-click="applyModifications()">Apply modifications</a>
+				<a  value="apply" class="btn btn-info col-md-6 btn-block" type="submit" ng-click="applyModifications()">Apply modifications</a>
+				<a  value="abort" class="btn btn-danger col-md-6 btn-block" type="submit" ng-click="abortChanges()">Abort changes</a>
 			</div>
 		</div>
 	</div>

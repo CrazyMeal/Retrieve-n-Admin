@@ -393,12 +393,17 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 			calculateWorstImbalance();
         };
 
+        $scope.abortChanges = function(){
+			for (var i = $scope.changes.length - 1; i >= 0; i--) {
+				$scope.removeChange($scope.changes[i]);
+			};
+        };
         $scope.highlightShard = function(idShard){
         	var shardQuery = $("#serverContainer").find("[shardId='"+ idShard +"']");
         	var shard = angular.element(shardQuery);
         	shard.css({
         		'background-color' : '#a8a8a8',
-        		'border': '3px solid black' 
+        		'border': '3px solid #CC1212' 
         	});
         };
         $scope.unHighlightShard = function(idShard){
