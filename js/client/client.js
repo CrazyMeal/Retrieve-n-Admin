@@ -145,6 +145,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 				$scope.dataServer.servers[indexOriginServer].shards.splice(indexShardToSplice, 1);
 				
 				notifyChanges(change.idShard, change.idOrigin, change.idDest);
+				calculateWorstImbalance();
 			});
 		};
 
