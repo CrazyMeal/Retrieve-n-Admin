@@ -48,9 +48,10 @@ app.factory('NetFactory', function($http, $q){
 
 				var tmpWeightValue = 0;
 				angular.forEach(server.shards, function(shard, index){
+					shard.weight = parseFloat(shard.weight.toFixed(4));
 					tmpWeightValue = tmpWeightValue + parseFloat(shard.weight);
 				});
-				server.weight = tmpWeightValue;
+				server.weight = parseFloat(tmpWeightValue.toFixed(4));
 				num = num + tmpWeightValue;
 
 				totalWeight = totalWeight + parseFloat(tmpWeightValue);
@@ -132,8 +133,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 				});
 				console.log(indexShardToSplice);
 				//Mise à jour des poids
-				$scope.dataServer.servers[indexDroppedServer].weight = parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight) + parseFloat($scope.dataServer.servers[indexDroppedServer].weight);
-				$scope.dataServer.servers[indexOriginServer].weight = parseFloat($scope.dataServer.servers[indexOriginServer].weight) - parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight);
+				$scope.dataServer.servers[indexDroppedServer].weight = parseFloat((parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight) + parseFloat($scope.dataServer.servers[indexDroppedServer].weight)).toFixed(4));
+				$scope.dataServer.servers[indexOriginServer].weight = parseFloat((parseFloat($scope.dataServer.servers[indexOriginServer].weight) - parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight)).toFixed(4));
 
 				//Mise a jour des listes
 				var newShard = {
@@ -169,8 +170,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 				}
 			});
 			//Mise à jour des poids
-			$scope.dataServer.servers[indexDroppedServer].weight = parseFloat(draggedElement.attr("weight")) + parseFloat($scope.dataServer.servers[indexDroppedServer].weight);
-			$scope.dataServer.servers[indexOriginServer].weight = parseFloat($scope.dataServer.servers[indexOriginServer].weight) - parseFloat(draggedElement.attr("weight"));
+			$scope.dataServer.servers[indexDroppedServer].weight = parseFloat((parseFloat(draggedElement.attr("weight")) + parseFloat($scope.dataServer.servers[indexDroppedServer].weight)).toFixed(4));
+			$scope.dataServer.servers[indexOriginServer].weight = parseFloat((parseFloat($scope.dataServer.servers[indexOriginServer].weight) - parseFloat(draggedElement.attr("weight"))).toFixed(4));
 
 			//Mise a jour des listes
 			var newShard = {
