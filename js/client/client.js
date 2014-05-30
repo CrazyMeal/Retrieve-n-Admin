@@ -409,8 +409,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 			};
         	
         	//Mise à jour poids
-        	$scope.dataServer.servers[indexDest].weight = parseFloat($scope.dataServer.servers[indexDest].weight) - parseFloat(newShard.weight);
-        	$scope.dataServer.servers[indexSource].weight = parseFloat($scope.dataServer.servers[indexSource].weight) + parseFloat(newShard.weight);
+        	$scope.dataServer.servers[indexDest].weight = parseFloat((parseFloat($scope.dataServer.servers[indexDest].weight) - parseFloat(newShard.weight)).toFixed(4));
+        	$scope.dataServer.servers[indexSource].weight = parseFloat((parseFloat($scope.dataServer.servers[indexSource].weight) + parseFloat(newShard.weight)).toFixed(4));
         	
         	//Mise à jour des listes
         	$scope.dataServer.servers[indexDest].shards.splice(indexToSplice, 1);
