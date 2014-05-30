@@ -1,10 +1,12 @@
 var bruteForceAlgorithm = {};
 
-bruteForceAlgorithm.imbalanceToleranceRatio = 0.1;
-bruteForceAlgorithm.maxIterations = 1000;
-bruteForceAlgorithm.debug = true;
+bruteForceAlgorithm.imbalanceToleranceRatio = 0.05;
+bruteForceAlgorithm.maxIterations = 100;
+bruteForceAlgorithm.debug = false;
 
 bruteForceAlgorithm.optimize = function(clusterGiven){
+console.log('received : ');
+console.log(clusterGiven);
 	var cluster = angular.copy(clusterGiven);
 	if(cluster.servers.length == 0){
 		console.log("No server to balance ; giving up");
@@ -48,7 +50,7 @@ bruteForceAlgorithm.optimize = function(clusterGiven){
 
 		var serverImbalanceAbs = Math.abs(serverImbalance);
 
-		var destinationServer;
+		var destinationServer = undefined;
 		var destinationServerProximity = Number.MAX_VALUE;
 		var destinationServerProximityAbs = destinationServerProximity;
 		for (var i = 0; i < cluster.servers.length; i++) {
@@ -56,12 +58,14 @@ bruteForceAlgorithm.optimize = function(clusterGiven){
 				continue;
 			}
 
-			var proximity = Math.abs(shardToMove.weight + this.imbalance(cluster.servers[i], avgWeight));
+			var proximity = shardToMove.weight + this.imbalance(cluster.servers[i], avgWeight);
 			if(this.debug)
 				console.log("shards can be moved on server "+cluster.servers[i].id+" and will have a proximity of "+proximity);
 			var proximityAbs = Math.abs(proximity);
-			if (proximityAbs < serverImbalanceAbs && (proximityAbs < destinationServerProximityAbs 
-					|| proximityAbs == destinationServerProximityAbs && proximity < 0 && destinationServerProximity < 0)) {
+			//old condition
+			//if (proximityAbs < serverImbalanceAbs && (proximityAbs < destinationServerProximityAbs 
+			//		|| proximityAbs == destinationServerProximityAbs && proximity < 0 && destinationServerProximity < 0)) {
+			if(proximity < 0 || proximityAbs < serverImbalanceAbs && (proximityAbs < destinationServerProximityAbs && destinationServerProximity > 0)){
 				if(this.debug)
 					console.log("this server is a valid destination");
 				destinationServer = cluster.servers[i];
@@ -149,7 +153,7 @@ bruteForceAlgorithm.calcAvgWeight = function(cluster){
 	var nb = 0;
 	for (var i = 0; i < cluster.servers.length; i++) {
 		for (var j = 0; j < cluster.servers[i].shards.length; j++) {
-			avg+=parseFloat(cluster.servers[i].shards[j].weight.toFixed(4));
+			avg+=parseFloat(cluster.servers[i].shards[j].weight);
 		}
 		nb++;
 	}
@@ -165,7 +169,7 @@ bruteForceAlgorithm.worstImbalance = function(cluster, avgWeight){
 	for (var i = 0; i < cluster.servers.length; i++) {
 		weight = 0;
 		for (var j = 0; j < cluster.servers[i].shards.length; j++) {
-			weight+=parseFloat(cluster.servers[i].shards[j].weight.toFixed(4));
+			weight+=parseFloat(cluster.servers[i].shards[j].weight);
 		}
 		weight = Math.abs(weight-avgWeight);
 		if(weight>worstImbalance)
@@ -181,7 +185,7 @@ bruteForceAlgorithm.getMostLoadedServer = function(cluster){
 	for (var i = 0; i < cluster.servers.length; i++) {
 		weight = 0;
 		for (var j = 0; j < cluster.servers[i].shards.length; j++) {
-			weight+=parseFloat(cluster.servers[i].shards[j].weight.toFixed(4));
+			weight+=parseFloat(cluster.servers[i].shards[j].weight);
 		}
 		if(weight>maxWeight){
 			maxWeight = parseFloat(weight);
@@ -194,7 +198,7 @@ bruteForceAlgorithm.getMostLoadedServer = function(cluster){
 bruteForceAlgorithm.imbalance = function(server, avgWeight){
 	var weight = 0;
 	for (var j = 0; j < server.shards.length; j++) {
-			weight+=parseFloat(server.shards[j].weight.toFixed(4));
+			weight+=parseFloat(server.shards[j].weight);
 	}
 	return weight-avgWeight;
 };

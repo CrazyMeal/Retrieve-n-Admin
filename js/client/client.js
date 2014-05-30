@@ -107,7 +107,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 		$scope.automaticBalance = function(){
 			var changes = bruteForceAlgorithm.optimize($scope.dataServer);
 			if(changes.length == 0){
-				alert('No balancing found');
+				$scope.openModalBalance();
 			}
 			angular.forEach(changes, function(change, index){
 				
@@ -450,8 +450,38 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 		$scope.consoleMe = function(){
 			console.log($scope.worstImbalance);
 		};
+
+		$scope.openModalBalance = function (size) {
+
+		    var modalInstance = $modal.open({
+		      templateUrl: 'modalNoBalanceFound.html',
+		      controller: ModalInstanceCtrl,
+		      size: size,
+		      resolve: {
+		        items: function () {
+		          return $scope.dataServer.servers[0];
+		        }
+		      }
+		    });
+
+		    modalInstance.result.then(function () {
+		    }, function () {
+		      console.log('Modal dismissed at: ' + new Date());
+		    });
+		};
 	}
 );
+
+var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
+
+  $scope.ok = function () {
+    $modalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};
 
 
  
