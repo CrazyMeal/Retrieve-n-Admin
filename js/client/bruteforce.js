@@ -2,7 +2,7 @@ var bruteForceAlgorithm = {};
 
 bruteForceAlgorithm.imbalanceToleranceRatio = 0.1;
 bruteForceAlgorithm.maxIterations = 1000;
-bruteForceAlgorithm.debug = false;
+bruteForceAlgorithm.debug = true;
 
 bruteForceAlgorithm.optimize = function(clusterGiven){
 	var cluster = angular.copy(clusterGiven);
@@ -56,7 +56,7 @@ bruteForceAlgorithm.optimize = function(clusterGiven){
 				continue;
 			}
 
-			var proximity = shardToMove.weight + this.imbalance(cluster.servers[i], avgWeight);
+			var proximity = Math.abs(shardToMove.weight + this.imbalance(cluster.servers[i], avgWeight));
 			if(this.debug)
 				console.log("shards can be moved on server "+cluster.servers[i].id+" and will have a proximity of "+proximity);
 			var proximityAbs = Math.abs(proximity);
@@ -121,7 +121,7 @@ bruteForceAlgorithm.optimize = function(clusterGiven){
 		var heavierShard;
 		for (var i = 0; i < cluster.servers.length; i++) {
 			for (var j = 0; j < cluster.servers[i].shards.length; j++) {
-				if(heavierShard == undefined || cluster.servers[i].shards[j].weight > heavierShard.weight)
+				if(heavierShard == undefined || parseFloat(cluster.servers[i].shards[j].weight) > parseFloat(heavierShard.weight))
 					heavierShard = cluster.servers[i].shards[j];
 			}
 		}
@@ -142,19 +142,19 @@ bruteForceAlgorithm.optimize = function(clusterGiven){
 			console.log("moving shard : "+ret[i].idShard+" from server :"+ret[i].idOrigin+" to server : "+ret[i].idDest);
 	}
 	return ret;
-}
+};
 
 bruteForceAlgorithm.calcAvgWeight = function(cluster){
 	var avg = 0;
 	var nb = 0;
 	for (var i = 0; i < cluster.servers.length; i++) {
 		for (var j = 0; j < cluster.servers[i].shards.length; j++) {
-			avg+=cluster.servers[i].shards[j].weight;
+			avg+=parseFloat(cluster.servers[i].shards[j].weight);
 		}
 		nb++;
 	}
 	return avg/nb;
-}
+};
 
 bruteForceAlgorithm.worstImbalance = function(cluster, avgWeight){
 	if(avgWeight==undefined)
@@ -165,14 +165,14 @@ bruteForceAlgorithm.worstImbalance = function(cluster, avgWeight){
 	for (var i = 0; i < cluster.servers.length; i++) {
 		weight = 0;
 		for (var j = 0; j < cluster.servers[i].shards.length; j++) {
-			weight+=cluster.servers[i].shards[j].weight;
+			weight+=parseFloat(cluster.servers[i].shards[j].weight);
 		}
 		weight = Math.abs(weight-avgWeight);
 		if(weight>worstImbalance)
 			worstImbalance = weight;
 	}
 	return worstImbalance;
-}
+};
 
 bruteForceAlgorithm.getMostLoadedServer = function(cluster){
 	var maxWeight = 0;
@@ -181,23 +181,23 @@ bruteForceAlgorithm.getMostLoadedServer = function(cluster){
 	for (var i = 0; i < cluster.servers.length; i++) {
 		weight = 0;
 		for (var j = 0; j < cluster.servers[i].shards.length; j++) {
-			weight+=cluster.servers[i].shards[j].weight;
+			weight+=parseFloat(cluster.servers[i].shards[j].weight);
 		}
 		if(weight>maxWeight){
-			maxWeight = weight;
+			maxWeight = parseFloat(weight);
 			server = cluster.servers[i];
 		}
 	}
 	return server;
-}
+};
 
 bruteForceAlgorithm.imbalance = function(server, avgWeight){
 	var weight = 0;
 	for (var j = 0; j < server.shards.length; j++) {
-			weight+=server.shards[j].weight;
+			weight+=parseFloat(server.shards[j].weight);
 	}
 	return weight-avgWeight;
-}
+};
 
 bruteForceAlgorithm.changeServer = function(cluster, shardToMove, destinationServer){
 	for (var i = 0; i < cluster.servers.length; i++) {
@@ -213,7 +213,7 @@ bruteForceAlgorithm.changeServer = function(cluster, shardToMove, destinationSer
 			cluster.servers[i].shards.push(shardToMove);
 		}
 	}
-}
+};
 
 bruteForceAlgorithm.getHeavierShard = function(cluster){
 	var heavier;
@@ -221,7 +221,7 @@ bruteForceAlgorithm.getHeavierShard = function(cluster){
 	var maxWeight = 0;
 	for (var i = 0; i < cluster.servers.length; i++) {
 		for (var j = 0; j < cluster.servers[i].shards.length; j++) {
-			weight = cluster.servers[i].shards[j].weight;
+			weight = parseFloat(cluster.servers[i].shards[j].weight);
 			if(weight > maxWeight){
 				maxWeight = weight;
 				heavier = cluster.servers[i].shards[j];
@@ -229,103 +229,12 @@ bruteForceAlgorithm.getHeavierShard = function(cluster){
 		}
 	}
 	return heavier;
-}
+};
 
 bruteForceAlgorithm.serverWeight = function(server){
 	var weight = 0;
 	for (var j = 0; j < server.shards.length; j++) {
-		weight += server.shards[j].weight;
+		weight += parseFloat(server.shards[j].weight);
 	}
 	return weight;
-}
-
-//bruteForceAlgorithm.optimize({"servers":[{"id":"portable-robin:60205","shards":[{"id":"test,row0.46448295027948916,1400578655617.9b57dc5707ddb43eb2ad1c4019a015b2.","weight":33.492268062010325},{"id":"test,row0.3104952012654394,1400578655617.3a2816f30fcfa8d404bb1d1296fa88d4.","weight":21.042239930290418}]},{"id":"portable-robin:60204","shards":[{"id":"test,row0.983185593271628,1400578655625.8aba411929d0259b86784eff43e57087.","weight":25.189558464556917},{"id":"test,row0.824470394756645,1400578655625.9561b2ee7a443c9fe40d888bb9dfa826.","weight":40.283378694745615}]},{"id":"portable-robin:60203","shards":[{"id":"server.cluster.RegionsStat,,1400578648113.475b3a0bb6b7fba8a85c5ef58f81d46a.","weight":20.45235963038763},{"id":"server.cluster.RegionsStat,7ffffeb9fa804be7,1400578648503.72e8c3c9a480161cf01b02ef49b0d949.","weight":0.3020669328563874},{"id":"server.cluster.RegionsStat,7ffffeb9fa693619,1400578648503.5bdc23d7926e9a85fb4a22a3de52c744.","weight":0.47165275792199757},{"id":"test,row0.30231216363608837,1400160543617.00357ad988dd8e426e434895062d2fe2.","weight":25.258073416643107},{"id":"server.cluster.RegionsStat,7ffffeb9fa678fef,1400578648113.92660f33d40c23ddafd4a4a2da99be86.","weight":24.58537264253084}]},{"id":"portable-robin:60020","shards":[{"id":".META.,,1","weight":31.922702434852653},{"id":"test,row0.6141315887216479,1400144331985.7a4d8347f7d383b9c85903caebfda48c.","weight":11.163738310083332},{"id":"-ROOT-,,0","weight":4.992975804837196},{"id":"test,row0.6039904670324177,1400160544476.d290cb9761abb64f6857b3a1008b3ccf.","weight":21.288259291875228}]},{"id":"portable-robin:60202","shards":[{"id":"test,,1400578655591.af0729576b499cc0c7ad607aa2b15cdd.","weight":47.25682356249252},{"id":"server.cluster.RegionsStat,7ffffeb9fab109f9,1400578648121.297894169de3a04a664e8677cff8eab3.","weight":37.55194065233679},{"id":"test,row0.7869106787256896,1400578655977.d597050622dccdf33794d1e9ff2cc917.","weight":32.42691699336724},{"id":"test,row0.6266481729689986,1400578655977.b1e68f0b3a4a4ed3bf2dfa5a8d2f6364.","weight":46.9984438477117},{"id":"server.cluster.RegionsStat,7ffffeb9fac99f5b,1400578648121.643c2b630ae3f334047411b3e53d911d.","weight":17.988276392087805},{"id":"test,row0.29743659938685596,1400578660202.86bf34ea3a4851533f03b9ad026d2b9e.","weight":27.934716479821375},{"id":"server.cluster.RegionsStat,7ffffeb9fa97ee9d,1400578641545.cc922e7a840072c3e83969488ef7d6d6.","weight":35.526099390722656},{"id":"test,row0.1505699495319277,1400578660202.f07c4e57b387868cd6149c111515f09c.","weight":13.737411964240149}]}]})
-/*
-bruteForceAlgorithm.optimize({
-    "cluster": 0,
-    "servers": [
-        {
-            "id": 0,
-            "shards": [
-                {
-                    "id": "s0s001010101010100101010101010100101010100101010100101010100101100101010101010010101010101010010101010",
-                    "weight": 10
-                },
-                {
-                    "id": "s0s1",
-                    "weight": 20
-                },
-                {
-                    "id": "s0s2",
-                    "weight": 50
-                }
-            ]
-        },
-        {
-            "id": 1,
-            "shards": [
-                {
-                    "id": "s1s0",
-                    "weight": 30
-                },
-                {
-                    "id": "s1s1",
-                    "weight": 30
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "shards": [
-                {
-                    "id": "s2s0",
-                    "weight": 7
-                },
-                {
-                    "id": "s2s1",
-                    "weight": 3
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "shards": [
-                {
-                    "id": "s3s0",
-                    "weight": 27
-                },
-                {
-                    "id": "s3s1",
-                    "weight": 80
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "shards": [
-                {
-                    "id": "s4s0",
-                    "weight": 18
-                },
-                {
-                    "id": "s4s1",
-                    "weight": 33
-                }
-            ]
-        },
-        {
-            "id": 5,
-            "shards": [
-                {
-                    "id": "s5s0",
-                    "weight": 14
-                },
-                {
-                    "id": "s5s1",
-                    "weight": 25
-                }
-            ]
-        }
-    ]
-});
-*/
+};

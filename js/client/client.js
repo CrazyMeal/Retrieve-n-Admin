@@ -16,8 +16,8 @@ app.filter('orderObjectBy', function(){
     }
 
     array.sort(function(a, b){
-        a = parseInt(a[attribute]);
-        b = parseInt(b[attribute]);
+        a = parseFloat(a[attribute]);
+        b = parseFloat(b[attribute]);
         return a < b;
     });
     return array;
@@ -48,12 +48,12 @@ app.factory('NetFactory', function($http, $q){
 
 				var tmpWeightValue = 0;
 				angular.forEach(server.shards, function(shard, index){
-					tmpWeightValue = tmpWeightValue + parseInt(shard.weight);
+					tmpWeightValue = tmpWeightValue + parseFloat(shard.weight);
 				});
 				server.weight = tmpWeightValue;
 				num = num + tmpWeightValue;
 
-				totalWeight = totalWeight + parseInt(tmpWeightValue);
+				totalWeight = totalWeight + parseFloat(tmpWeightValue);
 			});
 			scope.totalWeight = totalWeight;
 			scope.average = num / denum;
@@ -95,6 +95,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 			NetFactory.calculateDatas($scope);
 
 			calculateWorstImbalance();
+			$scope.originDataServer = angular.copy($scope.dataServer);
 		}, function(msg){
 			alert(msg);
 		});
@@ -104,6 +105,9 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 		};
 		$scope.automaticBalance = function(){
 			var changes = bruteForceAlgorithm.optimize($scope.dataServer);
+			if(changes.length == 0){
+				alert('No balancing found');
+			}
 			angular.forEach(changes, function(change, index){
 				
 				var indexDroppedServer, indexOriginServer, indexShardToSplice;
@@ -128,8 +132,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 				});
 				console.log(indexShardToSplice);
 				//Mise à jour des poids
-				$scope.dataServer.servers[indexDroppedServer].weight = parseInt($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight) + parseInt($scope.dataServer.servers[indexDroppedServer].weight);
-				$scope.dataServer.servers[indexOriginServer].weight = parseInt($scope.dataServer.servers[indexOriginServer].weight) - parseInt($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight);
+				$scope.dataServer.servers[indexDroppedServer].weight = parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight) + parseFloat($scope.dataServer.servers[indexDroppedServer].weight);
+				$scope.dataServer.servers[indexOriginServer].weight = parseFloat($scope.dataServer.servers[indexOriginServer].weight) - parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight);
 
 				//Mise a jour des listes
 				var newShard = {
@@ -165,8 +169,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 				}
 			});
 			//Mise à jour des poids
-			$scope.dataServer.servers[indexDroppedServer].weight = parseInt(draggedElement.attr("weight")) + parseInt($scope.dataServer.servers[indexDroppedServer].weight);
-			$scope.dataServer.servers[indexOriginServer].weight = parseInt($scope.dataServer.servers[indexOriginServer].weight) - parseInt(draggedElement.attr("weight"));
+			$scope.dataServer.servers[indexDroppedServer].weight = parseFloat(draggedElement.attr("weight")) + parseFloat($scope.dataServer.servers[indexDroppedServer].weight);
+			$scope.dataServer.servers[indexOriginServer].weight = parseFloat($scope.dataServer.servers[indexOriginServer].weight) - parseFloat(draggedElement.attr("weight"));
 
 			//Mise a jour des listes
 			var newShard = {
@@ -276,8 +280,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
         $scope.weightPercent = function(weight, sWeight) {
         	//console.log('fonction weightPercent');
         	var percentValue = 0;
-        	var shardWeight = parseInt(weight);
-        	var serverWeight = parseInt(sWeight);
+        	var shardWeight = parseFloat(weight);
+        	var serverWeight = parseFloat(sWeight);
 
         	percentValue = (shardWeight * 100) / serverWeight;
         	//$scope.weightWarningType(weight, sWeight);
@@ -287,8 +291,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
         	//console.log('fonction weightWarningType');
         	var type;
         	var percentValue = 0;
-        	var shardWeight = parseInt(weight);
-        	var serverWeight = parseInt(sWeight);
+        	var shardWeight = parseFloat(weight);
+        	var serverWeight = parseFloat(sWeight);
 
         	percentValue = (shardWeight * 100) / serverWeight;
 
@@ -307,7 +311,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
         	//console.log('fonction weightBalanceWarningType');
         	var type;
         	var average = $scope.average;
-        	var shardWeight = parseInt(weight);
+        	var shardWeight = parseFloat(weight);
 			
 			var imbalancePercent = (Math.abs((shardWeight - average)) * 100) / $scope.worstImbalance;
         	var averagePercent = (average * 100) / $scope.worstImbalance;
@@ -356,7 +360,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
         };
         calculateImbalance = function(serverWeight){
         	var imbalance = 0;
-        	imbalance = Math.abs((parseInt(serverWeight) - $scope.average));
+        	imbalance = Math.abs((parseFloat(serverWeight) - $scope.average));
         	return imbalance;
         };
         calculateWorstImbalance = function(){
@@ -365,22 +369,15 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
         	var worstImbalance = 0;
         	angular.forEach($scope.dataServer.servers, function(server, index){
         		if(server.weight > worstWeight){
-        			worstWeight = parseInt(server.weight);
+        			worstWeight = parseFloat(server.weight);
         		}
-        		if( Math.abs(parseInt(server.weight) - $scope.average) > worstImbalance) {
-        			worstImbalance = Math.abs(parseInt(server.weight) - $scope.average);
+        		if( Math.abs(parseFloat(server.weight) - $scope.average) > worstImbalance) {
+        			worstImbalance = Math.abs(parseFloat(server.weight) - $scope.average);
         		}
         	});
         	$scope.worstImbalance = worstImbalance;
         	$scope.worstWeight = worstWeight;
         	$scope.firstLoop = true;
-        	/*
-        	if($scope.firstLoop){
-        		$scope.firstLoop = false;
-        	} else {
-        		$scope.$apply();
-        	}
-        	*/
         };
         $scope.removeChange = function(changeToRemove){
         	angular.forEach($scope.changes, function(change, index){
@@ -410,8 +407,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 			};
         	
         	//Mise à jour poids
-        	$scope.dataServer.servers[indexDest].weight = $scope.dataServer.servers[indexDest].weight - newShard.weight;
-        	$scope.dataServer.servers[indexSource].weight = $scope.dataServer.servers[indexSource].weight + parseInt(newShard.weight);
+        	$scope.dataServer.servers[indexDest].weight = parseFloat($scope.dataServer.servers[indexDest].weight) - parseFloat(newShard.weight);
+        	$scope.dataServer.servers[indexSource].weight = parseFloat($scope.dataServer.servers[indexSource].weight) + parseFloat(newShard.weight);
         	
         	//Mise à jour des listes
         	$scope.dataServer.servers[indexDest].shards.splice(indexToSplice, 1);
@@ -447,6 +444,10 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 		$scope.sayHello = function(){
 			$scope.greeting = 'Hello';
 		};     
+
+		$scope.consoleMe = function(){
+			console.log($scope.worstImbalance);
+		};
 	}
 );
 
