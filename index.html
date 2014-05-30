@@ -46,10 +46,12 @@
 											<progressbar class="progress-striped active" value="weightPercent(server.weight,worstWeight)" type="{{weightBalanceWarningType(server.weight)}}"></progressbar>
 										</span>
 									</div>
-									<div ng-repeat="shard in server.shards | orderObjectBy: 'weight'" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}" collapse="server.isCollapsed">
-										<a popover-placement="right" popover="{{shard.id}}" class="btn btn-default">ID</a>
-										weight: {{shard.weight | limitTo: 5}}kg
-										<progressbar class="progress overrideProgress active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
+									<div class="shardsContainer">
+										<div ng-repeat="shard in server.shards | orderObjectBy: 'weight'" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}" collapse="server.isCollapsed">
+											<a popover-placement="right" popover="{{shard.id}}" class="btn btn-default">ID</a>
+											weight: {{shard.weight | limitTo: 5}}kg
+											<progressbar class="progress overrideProgress active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
+										</div>
 									</div>
 								</div>
 							</div>
