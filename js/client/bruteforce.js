@@ -149,7 +149,7 @@ bruteForceAlgorithm.calcAvgWeight = function(cluster){
 	var nb = 0;
 	for (var i = 0; i < cluster.servers.length; i++) {
 		for (var j = 0; j < cluster.servers[i].shards.length; j++) {
-			avg+=parseFloat(cluster.servers[i].shards[j].weight);
+			avg+=parseFloat(cluster.servers[i].shards[j].weight.toFixed(4));
 		}
 		nb++;
 	}
@@ -165,7 +165,7 @@ bruteForceAlgorithm.worstImbalance = function(cluster, avgWeight){
 	for (var i = 0; i < cluster.servers.length; i++) {
 		weight = 0;
 		for (var j = 0; j < cluster.servers[i].shards.length; j++) {
-			weight+=parseFloat(cluster.servers[i].shards[j].weight);
+			weight+=parseFloat(cluster.servers[i].shards[j].weight.toFixed(4));
 		}
 		weight = Math.abs(weight-avgWeight);
 		if(weight>worstImbalance)
@@ -181,7 +181,7 @@ bruteForceAlgorithm.getMostLoadedServer = function(cluster){
 	for (var i = 0; i < cluster.servers.length; i++) {
 		weight = 0;
 		for (var j = 0; j < cluster.servers[i].shards.length; j++) {
-			weight+=parseFloat(cluster.servers[i].shards[j].weight);
+			weight+=parseFloat(cluster.servers[i].shards[j].weight.toFixed(4));
 		}
 		if(weight>maxWeight){
 			maxWeight = parseFloat(weight);
@@ -194,7 +194,7 @@ bruteForceAlgorithm.getMostLoadedServer = function(cluster){
 bruteForceAlgorithm.imbalance = function(server, avgWeight){
 	var weight = 0;
 	for (var j = 0; j < server.shards.length; j++) {
-			weight+=parseFloat(server.shards[j].weight);
+			weight+=parseFloat(server.shards[j].weight.toFixed(4));
 	}
 	return weight-avgWeight;
 };

@@ -139,7 +139,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 				//Mise a jour des listes
 				var newShard = {
 					id : change.idShard,
-					weight : $scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight
+					weight : parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight.toFixed(4))
 				};
 				$scope.dataServer.servers[indexDroppedServer].shards.push(newShard);
 				$scope.dataServer.servers[indexOriginServer].shards.splice(indexShardToSplice, 1);
@@ -177,7 +177,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 			//Mise a jour des listes
 			var newShard = {
 				id : draggedElement.attr("shardId"),
-				weight : draggedElement.attr("weight")
+				weight : parseFloat(draggedElement.attr("weight"))
 			};
 			$scope.dataServer.servers[indexDroppedServer].shards.push(newShard);
 			$scope.dataServer.servers[indexOriginServer].shards.splice(indexShardToSplice, 1);
@@ -405,7 +405,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
         	});
         	var newShard = {
 				id : changeToRemove.idShard,
-				weight : $scope.dataServer.servers[indexDest].shards[indexToSplice].weight
+				weight : parseFloat($scope.dataServer.servers[indexDest].shards[indexToSplice].weight.toFixed(4))
 			};
         	
         	//Mise à jour poids
