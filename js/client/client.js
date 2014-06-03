@@ -1,5 +1,5 @@
 jQuery.event.props.push('dataTransfer');
-var app = angular.module('MonApp',['lvl.directives.dragdrop','ui.bootstrap']);
+var app = angular.module('MonApp',['lvl.directives.dragdrop','ui.bootstrap','LocalStorageModule']);
 /*
 app.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.useXDomain = true;
@@ -84,8 +84,8 @@ app.factory('NetFactory', function($http, $q){
 	return factory;
 });
 
-app.controller('MainController',function ($scope, $modal, NetFactory){
-		
+app.controller('MainController',function ($scope, $modal, NetFactory, localStorageService){
+		localStorageService.clearAll();
 		//Partie pour récupération de données depuis le web
 		$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
 			$scope.dataServer = dataServer;
@@ -101,6 +101,58 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 			alert(msg);
 		});
 
+		$scope.saveModifications = function(){
+			localStorageService.clearAll();
+			localStorageService.set('storedChanges', angular.copy($scope.changes));
+			console.log('data saved');
+		};
+		$scope.loadModifications = function(){
+			$scope.abortChanges();
+			$scope.changes = localStorageService.get('storedChanges');
+			$scope.applyChange($scope.changes);
+			localStorageService.clearAll();
+			console.log('data loaded');
+		};
+		$scope.applyChange = function(changes){
+			angular.forEach(changes, function(change, index){
+				
+				var indexDroppedServer, indexOriginServer, indexShardToSplice;
+				var shardFound = false;
+
+				angular.forEach($scope.dataServer.servers, function(server, index){
+					if(server.id == change.idDest){
+						indexDroppedServer = index;
+					}
+					if(server.id == change.idOrigin){
+						indexOriginServer = index;
+					}
+					if(!shardFound){
+						angular.forEach(server.shards, function(shard, indexShard){
+							if(shard.id == change.idShard){
+								indexShardToSplice = indexShard;
+								shardFound = true;
+								console.log(server);
+							}
+						});
+					}
+				});
+				console.log(indexShardToSplice);
+				//Mise à jour des poids
+				$scope.dataServer.servers[indexDroppedServer].weight = parseFloat((parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight) + parseFloat($scope.dataServer.servers[indexDroppedServer].weight)).toFixed(4));
+				$scope.dataServer.servers[indexOriginServer].weight = parseFloat((parseFloat($scope.dataServer.servers[indexOriginServer].weight) - parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight)).toFixed(4));
+
+				//Mise a jour des listes
+				var newShard = {
+					id : change.idShard,
+					weight : parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight.toFixed(4))
+				};
+				$scope.dataServer.servers[indexDroppedServer].shards.push(newShard);
+				$scope.dataServer.servers[indexOriginServer].shards.splice(indexShardToSplice, 1);
+				
+				notifyChanges(change.idShard, change.idOrigin, change.idDest);
+				calculateWorstImbalance();
+			});
+		};
 		$scope.applyModifications = function(){
 			NetFactory.postChanges($scope);
 		};

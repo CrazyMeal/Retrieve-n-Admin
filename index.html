@@ -10,10 +10,10 @@
 <body ng-app="MonApp">
 	<div ng-controller="MainController" id="main-container">
 		<div class="col-md-9 ">
-			<h1>Welcome on Retrieve'n Admin </h1>
+			<h1>Welcome on Retrieve'n Admin</h1>
 			<div id="button-zone">
-				<a serverId="300" value=" Send" class="btn btn-info" type="submit" onclick="window.location='http://google.com';">Save configuration</a>
-				
+				<a serverId="300" value=" Save" class="btn btn-info" type="submit" ng-click="loadModifications()">Load configuration</a>
+				<a serverId="300" value=" Load" class="btn btn-info" type="submit" ng-click="saveModifications()">Save configuration</a>
 				<a value="automaticBalance" class="btn btn-info" ng-click="automaticBalance()">Automatic balance</a>
 				<a value="refreshList" class="btn btn-default" ng-click="refreshBool = true">Refresh sort</a>
 				<a value="help" class="btn btn-default" ng-click="openModal('help')">Help !</a>
