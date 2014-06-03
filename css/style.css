@@ -161,7 +161,29 @@ body{
 	width: 100%;
 	overflow: auto;
 }
-
+.clear{
+	clear: both;
+}
+.modal-body p{
+	display: block;
+}
+.modal-body ul{
+	display: block;
+	float: left;
+	width: 600px;
+}
+.modal-body ul li{
+}
+.modal-body .help-content{
+	float: left;
+	display: block;
+	width: 600px;
+	padding-left: 5px;
+}
+.modal-body .modal-img-float{
+	display: block;
+	float: left;
+}
 [draggable] {
     cursor: move;
 }

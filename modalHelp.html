@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h3 class="modal-title" align="center">Help</h3>
+</div>
+
+<div class="modal-body">
+    <div>
+    	<h3>The server representation:</h3>
+    	<img class="modal-img-float" src="img/help-server.png" alt="help-server" />
+    	<p class="help-content">
+		   	As you can see, we have the <i>id</i> of the server, its weight and a progressbar.<br><br>
+		    <img src="img/help-server-progressbar.png" alt="help-server-progressbar" />
+		    This progressbar gives you two différent informations:
+		    <ul>
+		    	<li>The size is for the server's weight % compared to the heaviest</li>
+		    	<li>The color is for the imbalance of the server compared to the worst imbalance</li>
+		    </ul>
+	    </p>
+    </div>
+    <div class="clear"></div>
+    <div>
+    	<h3>The server deployed representation:</h3>
+    	<img class="modal-img-float" src="img/help-server-deployed.png" alt="help-server-deployed" />
+    	<p class="help-content">
+    		To deploy the server and manipulate its shards, just drag'n'drop it to the bottom dashed zone.
+		   	In deployed representation we have further informations.<br>
+		    <ul>
+		    	<li>The stripped progressbar is exactly the same as in non-deployed server representation, it indicates the same informations</li>
+		    	<li>Concerning the shard's progressbar, it only shows one information, the weight % of the shard compared to the server's weight</li>
+		    </ul>
+	    </p>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+</div>

@@ -107,7 +107,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 		$scope.automaticBalance = function(){
 			var changes = bruteForceAlgorithm.optimize($scope.dataServer);
 			if(changes.length == 0){
-				$scope.openModalBalance();
+				$scope.openModal('automaticBalance');
 			}
 			angular.forEach(changes, function(change, index){
 				
@@ -451,19 +451,32 @@ app.controller('MainController',function ($scope, $modal, NetFactory){
 			console.log($scope.worstImbalance);
 		};
 
-		$scope.openModalBalance = function (size) {
-
-		    var modalInstance = $modal.open({
-		      templateUrl: 'modalNoBalanceFound.html',
-		      controller: ModalInstanceCtrl,
-		      size: size,
-		      resolve: {
-		        items: function () {
-		          return $scope.dataServer.servers[0];
-		        }
-		      }
-		    });
-
+		$scope.openModal = function (modalType) {
+			var modalInstance;
+			if(modalType == 'automaticBalance'){
+			    modalInstance = $modal.open({
+				    templateUrl: 'modalNoBalanceFound.html',
+				    controller: ModalInstanceCtrl,
+				    size: 0,
+				    resolve: {
+				    	items: function () {
+				        	return $scope.dataServer.servers[0];
+				        }
+				    }
+			    });
+			}
+			if(modalType == 'help'){
+				modalInstance = $modal.open({
+				    templateUrl: 'modalHelp.html',
+				    controller: ModalInstanceCtrl,
+				    size: 'lg',
+				    resolve: {
+				    	items: function () {
+				        	return $scope.dataServer.servers[0];
+				        }
+				    }
+			    });
+			}
 		    modalInstance.result.then(function () {
 		    }, function () {
 		      console.log('Modal dismissed at: ' + new Date());
