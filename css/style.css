@@ -35,6 +35,15 @@ body{
 	margin-top: 20px;
 	margin-bottom: 5px;
 }
+
+#tableZone{
+	display: block;
+	min-height: 200px;
+	margin-top: 20px;
+	margin-left: 50px;
+}
+
+
 #serversSlider {
 	display: block;
 	height : 135px;

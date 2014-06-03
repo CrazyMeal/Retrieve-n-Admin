@@ -39,7 +39,8 @@ app.factory('NetFactory', function($http, $q){
 			return deferred.promise;
 		},
 		calculateDatas : function(scope){
-
+			var tables = [];
+			var tablesFound = [];
 			var totalWeight = 0;
 			var num = 0;
 			var denum = scope.dataServer.servers.length;
@@ -50,6 +51,15 @@ app.factory('NetFactory', function($http, $q){
 				angular.forEach(server.shards, function(shard, index){
 					shard.weight = parseFloat(shard.weight.toFixed(4));
 					tmpWeightValue = tmpWeightValue + parseFloat(shard.weight);
+					if($.inArray(shard.table, tablesFound) == -1){
+						tablesFound.push(shard.table);
+						
+						tableToAdd = {
+							name : shard.table,
+							selected : true
+						};
+						tables.push(tableToAdd);
+					}
 				});
 				server.weight = parseFloat(tmpWeightValue.toFixed(4));
 				num = num + tmpWeightValue;
@@ -58,6 +68,7 @@ app.factory('NetFactory', function($http, $q){
 			});
 			scope.totalWeight = totalWeight;
 			scope.average = num / denum;
+			scope.tables = tables;
 
 			angular.forEach(scope.dataServer.servers, function(server, value){
 				server.imbalance = calculateImbalance(server.weight);
@@ -85,7 +96,7 @@ app.factory('NetFactory', function($http, $q){
 });
 
 app.controller('MainController',function ($scope, $modal, NetFactory, localStorageService){
-		localStorageService.clearAll();
+		
 		//Partie pour récupération de données depuis le web
 		$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
 			$scope.dataServer = dataServer;
@@ -93,10 +104,10 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			$scope.changes = [];
 			$scope.refreshBool = false;
 			$scope.refreshCount = 0;
+			$scope.selectedAll = true;
 			NetFactory.calculateDatas($scope);
 
 			calculateWorstImbalance();
-			$scope.originDataServer = angular.copy($scope.dataServer);
 		}, function(msg){
 			alert(msg);
 		});
@@ -109,11 +120,10 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 		$scope.loadModifications = function(){
 			$scope.abortChanges();
 			$scope.changes = localStorageService.get('storedChanges');
-			$scope.applyChange($scope.changes);
-			localStorageService.clearAll();
+			$scope.applyChangement($scope.changes);
 			console.log('data loaded');
 		};
-		$scope.applyChange = function(changes){
+		$scope.applyChangement = function(changes){
 			angular.forEach(changes, function(change, index){
 				
 				var indexDroppedServer, indexOriginServer, indexShardToSplice;
@@ -161,44 +171,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			if(changes.length == 0){
 				$scope.openModal('automaticBalance');
 			}
-			angular.forEach(changes, function(change, index){
-				
-				var indexDroppedServer, indexOriginServer, indexShardToSplice;
-				var shardFound = false;
-
-				angular.forEach($scope.dataServer.servers, function(server, index){
-					if(server.id == change.idDest){
-						indexDroppedServer = index;
-					}
-					if(server.id == change.idOrigin){
-						indexOriginServer = index;
-					}
-					if(!shardFound){
-						angular.forEach(server.shards, function(shard, indexShard){
-							if(shard.id == change.idShard){
-								indexShardToSplice = indexShard;
-								shardFound = true;
-								console.log(server);
-							}
-						});
-					}
-				});
-				console.log(indexShardToSplice);
-				//Mise à jour des poids
-				$scope.dataServer.servers[indexDroppedServer].weight = parseFloat((parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight) + parseFloat($scope.dataServer.servers[indexDroppedServer].weight)).toFixed(4));
-				$scope.dataServer.servers[indexOriginServer].weight = parseFloat((parseFloat($scope.dataServer.servers[indexOriginServer].weight) - parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight)).toFixed(4));
-
-				//Mise a jour des listes
-				var newShard = {
-					id : change.idShard,
-					weight : parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight.toFixed(4))
-				};
-				$scope.dataServer.servers[indexDroppedServer].shards.push(newShard);
-				$scope.dataServer.servers[indexOriginServer].shards.splice(indexShardToSplice, 1);
-				
-				notifyChanges(change.idShard, change.idOrigin, change.idDest);
-				calculateWorstImbalance();
-			});
+			$scope.applyChangement(changes);
 		};
 
 		modifyServer = function(idDroppedServer, draggedElement){
@@ -495,6 +468,16 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
         		'border': '' 
         	});
         };
+        $scope.checkAll = function () {
+	        if ($scope.selectedAll) {
+	            $scope.selectedAll = false;
+	        } else {
+	            $scope.selectedAll = true;
+	        }
+	        angular.forEach($scope.tables, function (item) {
+	            item.selected = $scope.selectedAll;
+	        });
+    	};
 		$scope.sayHello = function(){
 			$scope.greeting = 'Hello';
 		};     
