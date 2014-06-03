@@ -65,7 +65,7 @@
 											</span>
 										</div>
 										<div class="shardsContainer">
-											<div ng-repeat="shard in server.shards | orderObjectBy: 'weight'" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}" collapse="server.isCollapsed">
+											<div ng-repeat="shard in server.shards | orderObjectBy: 'weight'" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}" tableName="{{shard.table}}" collapse="server.isCollapsed" ng-show="showShard(shard)">
 												<a popover-placement="right" popover="{{shard.id}}" class="btn btn-default">ID</a>
 												weight: {{shard.weight | limitTo: 5}}| table:{{shard.table}}
 												<progressbar class="progress overrideProgress active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>

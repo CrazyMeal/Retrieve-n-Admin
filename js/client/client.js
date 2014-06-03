@@ -154,7 +154,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 				//Mise a jour des listes
 				var newShard = {
 					id : change.idShard,
-					weight : parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight.toFixed(4))
+					weight : parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight.toFixed(4)),
+					table : $scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].table
 				};
 				$scope.dataServer.servers[indexDroppedServer].shards.push(newShard);
 				$scope.dataServer.servers[indexOriginServer].shards.splice(indexShardToSplice, 1);
@@ -202,7 +203,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			//Mise a jour des listes
 			var newShard = {
 				id : draggedElement.attr("shardId"),
-				weight : parseFloat(draggedElement.attr("weight"))
+				weight : parseFloat(draggedElement.attr("weight")),
+				table : draggedElement.attr("tableName")
 			};
 			$scope.dataServer.servers[indexDroppedServer].shards.push(newShard);
 			$scope.dataServer.servers[indexOriginServer].shards.splice(indexShardToSplice, 1);
@@ -430,7 +432,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
         	});
         	var newShard = {
 				id : changeToRemove.idShard,
-				weight : parseFloat($scope.dataServer.servers[indexDest].shards[indexToSplice].weight.toFixed(4))
+				weight : parseFloat($scope.dataServer.servers[indexDest].shards[indexToSplice].weight.toFixed(4)),
+				table : $scope.dataServer.servers[indexDest].shards[indexToSplice].table
 			};
         	
         	//Mise à jour poids
@@ -477,6 +480,19 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 	        angular.forEach($scope.tables, function (item) {
 	            item.selected = $scope.selectedAll;
 	        });
+    	};
+    	$scope.showShard = function(shard){
+    		var show = false;
+    		var tables = angular.copy($scope.tables);
+    		console.log(tables);
+    		
+    		angular.forEach(tables, function(table, index){
+    			if(table.name == shard.table){
+    				show = table.selected;
+    			}
+    		});
+
+    		return show;
     	};
 		$scope.sayHello = function(){
 			$scope.greeting = 'Hello';
