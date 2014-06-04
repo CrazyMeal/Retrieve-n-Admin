@@ -193,6 +193,10 @@ body{
 	display: block;
 	float: left;
 }
+
+.modal canvas{
+	margin-left: 40%;
+}
 [draggable] {
     cursor: move;
 }

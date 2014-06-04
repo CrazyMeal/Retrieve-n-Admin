@@ -105,6 +105,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			$scope.refreshBool = false;
 			$scope.refreshCount = 0;
 			$scope.selectedAll = true;
+			$scope.loading = false;
 			NetFactory.calculateDatas($scope);
 
 			calculateWorstImbalance();
@@ -502,6 +503,28 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			console.log($scope.worstImbalance);
 		};
 
+		recur = function(){
+			    var initval = 100;
+				$({value: 0}).animate({value: initval}, {
+					duration: 1000,
+					easing:'swing',
+					step: function()
+					{
+						$('.dial').val(this.value).trigger('change');
+						$('#preval').val(initval);
+					},
+					
+					complete: function()
+					{	
+						$('.dial').val(this.value).trigger('change');
+						console.log($scope.loading);
+						if($scope.loading){
+							recur();
+						}
+						
+					}
+				});	
+			};
 		$scope.openModal = function (modalType) {
 			var modalInstance;
 			if(modalType == 'automaticBalance'){
@@ -528,9 +551,26 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 				    }
 			    });
 			}
+			if(modalType == 'loading'){
+				$scope.loading = true;
+				$(".dial").knob();
+				recur();
+				modalInstance = $modal.open({
+				    templateUrl: 'modalLoading.html',
+				    controller: ModalInstanceCtrl,
+				    size: 0,
+				    resolve: {
+				    	items: function () {
+				    		
+				        	return $scope.dataServer.servers[0];
+				        }
+				    }
+			    });
+			}
 		    modalInstance.result.then(function () {
 		    }, function () {
-		      console.log('Modal dismissed at: ' + new Date());
+		    	$scope.loading = false;
+		    	console.log('Modal dismissed at: ' + new Date());
 		    });
 		};
 	}
