@@ -4,7 +4,7 @@
 </div>
 -->
 <div class="modal-body">
-    <h3 align="center">Loading...</h3>
+    <h3 align="center">Applying changes...</h3>
     <input type="text" 
 	    data-displayInput=false 
 	    data-width="100" 
@@ -13,16 +13,11 @@
 	    data-thickness="0.4"
 	    class="dial"
     >
-
+    <br>
+    <h4 align="center">{{loadingInfos}}</h4>
 	<script>
 		$(function() {
 		    $(".dial").knob();
 		});
 	</script>
-<!--
-<div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
-    <!--<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-
 </div>
--->

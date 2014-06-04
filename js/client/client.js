@@ -28,7 +28,8 @@ app.factory('NetFactory', function($http, $q){
 		getServerDatas : function(){
 			var deferred = $q.defer();
 			//http://10.59.14.102:8080/aboutCluster
-			$http({method: 'GET', url: 'tmp/FormeJsonCluster.json'})
+			//$http({method: 'GET', url: 'tmp/FormeJsonCluster.json'})
+			$http({method: 'GET', url: 'http://10.59.14.102:8080/aboutCluster'})
 				.success(function(data, status){
 					factory.dataServer = data;
 					deferred.resolve(factory.dataServer);
@@ -98,6 +99,7 @@ app.factory('NetFactory', function($http, $q){
 app.controller('MainController',function ($scope, $modal, NetFactory, localStorageService){
 		
 		//Partie pour récupération de données depuis le web
+		/*
 		$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
 			$scope.dataServer = dataServer;
 			$scope.serversToSplit = [];
@@ -112,7 +114,25 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 		}, function(msg){
 			alert(msg);
 		});
+*/
+		
+		init = function(){
+			$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
+				$scope.dataServer = dataServer;
+				$scope.serversToSplit = [];
+				$scope.changes = [];
+				$scope.refreshBool = false;
+				$scope.refreshCount = 0;
+				$scope.selectedAll = true;
+				$scope.loading = false;
+				NetFactory.calculateDatas($scope);
 
+				calculateWorstImbalance();
+			}, function(msg){
+				alert(msg);
+			});
+		};
+		init();
 		$scope.saveModifications = function(){
 			localStorageService.clearAll();
 			localStorageService.set('storedChanges', angular.copy($scope.changes));
@@ -142,12 +162,10 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 							if(shard.id == change.idShard){
 								indexShardToSplice = indexShard;
 								shardFound = true;
-								console.log(server);
 							}
 						});
 					}
 				});
-				console.log(indexShardToSplice);
 				//Mise à jour des poids
 				$scope.dataServer.servers[indexDroppedServer].weight = parseFloat((parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight) + parseFloat($scope.dataServer.servers[indexDroppedServer].weight)).toFixed(4));
 				$scope.dataServer.servers[indexOriginServer].weight = parseFloat((parseFloat($scope.dataServer.servers[indexOriginServer].weight) - parseFloat($scope.dataServer.servers[indexOriginServer].shards[indexShardToSplice].weight)).toFixed(4));
@@ -167,6 +185,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 		};
 		$scope.applyModifications = function(){
 			NetFactory.postChanges($scope);
+			$scope.openModal('loading');
 		};
 		$scope.automaticBalance = function(){
 			var changes = bruteForceAlgorithm.optimize($scope.dataServer);
@@ -485,8 +504,6 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
     	$scope.showShard = function(shard){
     		var show = false;
     		var tables = angular.copy($scope.tables);
-    		console.log(tables);
-    		
     		angular.forEach(tables, function(table, index){
     			if(table.name == shard.table){
     				show = table.selected;
@@ -503,28 +520,38 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			console.log($scope.worstImbalance);
 		};
 
-		recur = function(){
-			    var initval = 100;
-				$({value: 0}).animate({value: initval}, {
-					duration: 1000,
-					easing:'swing',
-					step: function()
-					{
-						$('.dial').val(this.value).trigger('change');
-						$('#preval').val(initval);
-					},
-					
-					complete: function()
-					{	
-						$('.dial').val(this.value).trigger('change');
-						console.log($scope.loading);
-						if($scope.loading){
-							recur();
-						}
-						
-					}
-				});	
-			};
+		$scope.recur = function(modalInstance){
+			var initval = 100;
+			$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
+				console.log(dataServer.error);
+				$scope.loadingInfos = dataServer.error;
+				if(dataServer.error == undefined){
+					$scope.loading = false;
+					modalInstance.close();
+					init();
+				}
+			}, function(msg){
+				alert(msg);
+			});
+
+			$({value: 0}).animate({value: initval}, {
+				duration: 2000,
+				easing:'swing',
+				step: function()
+				{
+					$('.dial').val(this.value).trigger('change');
+					$('#preval').val(initval);
+				},
+				
+				complete: function()
+				{	
+					$('.dial').val(this.value).trigger('change');
+					if($scope.loading){
+						$scope.recur(modalInstance);
+					}		
+				}
+			});	
+		};
 		$scope.openModal = function (modalType) {
 			var modalInstance;
 			if(modalType == 'automaticBalance'){
@@ -553,19 +580,23 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			}
 			if(modalType == 'loading'){
 				$scope.loading = true;
-				$(".dial").knob();
-				recur();
 				modalInstance = $modal.open({
 				    templateUrl: 'modalLoading.html',
+				    scope: $scope,
 				    controller: ModalInstanceCtrl,
 				    size: 0,
+				    //keyboard: false,
+  					backdrop: 'static',
 				    resolve: {
-				    	items: function () {
-				    		
+				    	items: function () {	
 				        	return $scope.dataServer.servers[0];
-				        }
+				        },
+				        errorMes: function(){
+				        	return $scope;
+				        } 
 				    }
 			    });
+			    $scope.recur(modalInstance);
 			}
 		    modalInstance.result.then(function () {
 		    }, function () {
