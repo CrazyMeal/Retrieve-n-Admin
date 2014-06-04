@@ -99,40 +99,31 @@ app.factory('NetFactory', function($http, $q){
 app.controller('MainController',function ($scope, $modal, NetFactory, localStorageService){
 		
 		//Partie pour récupération de données depuis le web
-		/*
-		$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
-			$scope.dataServer = dataServer;
-			$scope.serversToSplit = [];
-			$scope.changes = [];
-			$scope.refreshBool = false;
-			$scope.refreshCount = 0;
-			$scope.selectedAll = true;
-			$scope.loading = false;
-			NetFactory.calculateDatas($scope);
 
-			calculateWorstImbalance();
-		}, function(msg){
-			alert(msg);
-		});
-*/
-		
 		init = function(){
 			$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
-				$scope.dataServer = dataServer;
-				$scope.serversToSplit = [];
-				$scope.changes = [];
-				$scope.refreshBool = false;
-				$scope.refreshCount = 0;
-				$scope.selectedAll = true;
-				$scope.loading = false;
-				NetFactory.calculateDatas($scope);
+				if(dataServer.error != undefined){
+					$scope.openModal('loading');
+				}
+				else{
+					$scope.dataServer = dataServer;
+					$scope.serversToSplit = [];
+					$scope.changes = [];
+					$scope.refreshBool = false;
+					$scope.refreshCount = 0;
+					$scope.selectedAll = true;
+					$scope.loading = false;
+					NetFactory.calculateDatas($scope);
 
-				calculateWorstImbalance();
+					calculateWorstImbalance();
+				}
 			}, function(msg){
 				alert(msg);
 			});
 		};
+		
 		init();
+		
 		$scope.saveModifications = function(){
 			localStorageService.clearAll();
 			localStorageService.set('storedChanges', angular.copy($scope.changes));
@@ -525,6 +516,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
 				console.log(dataServer.error);
 				$scope.loadingInfos = dataServer.error;
+				
 				if(dataServer.error == undefined){
 					$scope.loading = false;
 					modalInstance.close();
@@ -589,7 +581,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
   					backdrop: 'static',
 				    resolve: {
 				    	items: function () {	
-				        	return $scope.dataServer.servers[0];
+				        	return $scope;
 				        },
 				        errorMes: function(){
 				        	return $scope;
