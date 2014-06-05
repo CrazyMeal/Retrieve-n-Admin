@@ -108,6 +108,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 				else{
 					$scope.dataServer = dataServer;
 					$scope.serversToSplit = [];
+					$scope.splitServers = [];
 					$scope.changes = [];
 					$scope.refreshBool = false;
 					$scope.refreshCount = 0;
@@ -510,11 +511,13 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 		$scope.consoleMe = function(){
 			console.log($scope.worstImbalance);
 		};
-
+		$scope.clearManipZone = function(){
+			$scope.serversToSplit = [];
+			$scope.splitServers = [];
+		};
 		$scope.recur = function(modalInstance){
 			var initval = 100;
 			$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
-				console.log(dataServer.error);
 				$scope.loadingInfos = dataServer.error;
 				
 				if(dataServer.error == undefined){
@@ -577,7 +580,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 				    scope: $scope,
 				    controller: ModalInstanceCtrl,
 				    size: 0,
-				    //keyboard: false,
+				    keyboard: false,
   					backdrop: 'static',
 				    resolve: {
 				    	items: function () {	
