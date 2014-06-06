@@ -28,8 +28,8 @@ app.factory('NetFactory', function($http, $q){
 		getServerDatas : function(){
 			var deferred = $q.defer();
 			//http://10.59.14.102:8080/aboutCluster
-			//$http({method: 'GET', url: 'tmp/FormeJsonCluster.json'})
-			$http({method: 'GET', url: 'http://10.59.14.102:8080/aboutCluster'})
+			$http({method: 'GET', url: 'tmp/FormeJsonCluster.json'})
+			//$http({method: 'GET', url: 'http://10.59.14.102:8080/aboutCluster'})
 				.success(function(data, status){
 					factory.dataServer = data;
 					deferred.resolve(factory.dataServer);
@@ -110,6 +110,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 					$scope.serversToSplit = [];
 					$scope.splitServers = [];
 					$scope.changes = [];
+					$scope.tmpTableGroup = [];
+					$scope.tableGroups = [];
 					$scope.refreshBool = false;
 					$scope.refreshCount = 0;
 					$scope.selectedAll = true;
@@ -466,6 +468,54 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			for (var i = $scope.changes.length - 1; i >= 0; i--) {
 				$scope.removeChange($scope.changes[i]);
 			};
+        };
+
+        $scope.addToTmp = function(table){
+        	if($.inArray(table, $scope.tmpTableGroup) == -1){
+        		$scope.tmpTableGroup.push(table);
+        		$scope.tmpGroupCreateDisabled = true;
+        	}
+        };
+        $scope.removeFromTmp = function(table){
+        	var indexFound = 0;
+        	angular.forEach($scope.tmpTableGroup, function(tmpTable, index){
+        		if(tmpTable.name == table.name){
+        			indexFound = index;
+        		}
+        	});
+        	$scope.tmpTableGroup.splice(indexFound, 1);
+        	if($scope.tmpTableGroup.length == 0){
+        		$scope.tmpGroupCreateDisabled = false;
+        	}
+        };
+        $scope.createGroup = function(tmpGroupName){
+        	if(tmpGroupName != undefined){
+	        	$scope.tmpTableGroup.name = angular.copy(tmpGroupName);
+	        	$scope.tmpTableGroup.selected = true;
+	        	$scope.tableGroups.push($scope.tmpTableGroup);
+	        	$scope.tmpTableGroup = [];
+	        	$scope.tmpGroupName = undefined;
+	        	$scope.tmpGroupCreateDisabled = false;
+        	}
+        };
+        $scope.removeGroup = function(groupToRemove){
+        	var indexFound;
+        	angular.forEach($scope.tableGroups, function(group, index){
+        		if(groupToRemove.name == group.name){
+        			indexFound = index;
+        		}
+        	});
+        	angular.forEach($scope.tableGroups[indexFound], function(table, index){
+        		table.selected = true;
+        	});
+        	$scope.tableGroups.splice(indexFound, 1);
+        };
+        $scope.manageGroupVision = function(group){
+        	group.selected = !group.selected;
+        	
+        	angular.forEach(group, function(table, index){
+        		table.selected = group.selected;
+        	});
         };
         $scope.highlightShard = function(idShard){
         	var shardQuery = $("#serverContainer").find("[shardId='"+ idShard +"']");

@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>JSBase</title>
-	<meta charset=utf-8 />
+	<title>Retrieve'n Admin</title>
+	<meta charset="utf-8" />
+	<meta name="description" content="This is a webapp to administrate distributed database">
+	<meta name="author" content="Paquet Kevin">
+	<meta name="author" content="Denaux Robin">
 	<link rel="stylesheet" type="text/css" href="css/style.css" media="all"/>
 	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 </head>
@@ -21,17 +24,48 @@
 				<a value="help" class="btn btn-default" ng-click="openModal('help')">Help !</a>
 			</div>
 			<div collapse="!tableCollapsed">
-				<div id="tableZone">
-					<h3>Chose table(s) you want to lock</h3>
-					<label class="checkbox">
-						    <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()">
-						    Select All
-					</label>
+				<div id="tableZone" class="col-md-3">
+					<h3 align="center">Table(s) to work on</h3>
+						<input  type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /> 
+						<label>Select All</label>
+
 					<div class="tableDatas" ng-repeat="table in tables">
-						<label class="checkbox">
-						    <input type="checkbox" ng-model="table.selected">
-						    {{table.name}}
-						</label>
+						<input type="checkbox" ng-model="table.selected">
+						<label>{{table.name}}</label>
+						<a ng-click="addToTmp(table)" href=""><span class="glyphicon glyphicon-plus"></span></a>
+					</div>
+				</div>
+				<div id="tableZoneTmp" class="col-md-3" ng-show="!showTmpGroup">
+					<h3 align="center">New group</h3>
+					<div class="input-group">
+						<ul>
+							<li ng-repeat="table in tmpTableGroup">
+							<label>
+								{{table.name}}
+								<a ng-click="removeFromTmp(table)" href=""><span class="glyphicon glyphicon-minus"></span></a>
+							</label>
+							</li>
+						</ul>
+						<div>
+					    	<input type="text" class="form-control" ng-disabled="!tmpGroupCreateDisabled" ng-model="tmpGroupName">
+					    	<span class="input-group-btn">
+					    		<a class="btn btn-success" type="button" ng-disabled="!tmpGroupCreateDisabled" ng-click="createGroup(tmpGroupName)">Create</a>
+					    	</span>
+				    	</div>
+				    </div>
+				</div>
+				<div id="tableZoneGroups" class="col-md-3">
+					<h3 align="center">Groups</h3>
+					<div ng-repeat="group in tableGroups" class="tableGroup">
+						<input type="checkbox" ng-model="group.selected" ng-click="manageGroupVision(group)" />
+						<a ng-click="removeGroup(group)" href="" class="suppressButton"><span class="glyphicon glyphicon-remove-sign"></span></a>
+						Name: {{group.name}}
+						<ul>
+							<li ng-repeat="table in group">
+								{{table.name}} {{table.selected}}
+							</li>
+						</ul>
+
 					</div>
 				</div>
 			</div>
@@ -69,7 +103,7 @@
 											<div ng-repeat="shard in server.shards | orderObjectBy: 'weight'" class="shard" x-lvl-draggable='true' weight="{{shard.weight}}" serverId="{{server.id}}" shardId="{{shard.id}}" tableName="{{shard.table}}" collapse="server.isCollapsed" ng-show="showShard(shard)">
 												<a popover-placement="right" popover="{{shard.id}}" class="btn btn-default">ID</a>
 												weight: {{shard.weight | limitTo: 5}}<br>
-												table:{{shard.table}}
+												table:..{{shard.table | limitTo: -20}}
 												<progressbar class="progress overrideProgress active" value="weightPercent(shard.weight,server.weight)" type="{{weightWarningType(shard.weight,server.weight)}}"></progressbar>
 											</div>
 										</div>
@@ -92,7 +126,7 @@
 					<tr ng-repeat="change in changes">
 					<td>
 						<span class="changeContent">
-							Shard <i><span ng-mouseover="highlightShard(change.idShard)" ng-mouseleave="unHighlightShard(change.idShard)">{{change.idShard | limitTo: 20}}<!-- ...{{change.idShard | limitTo: -10}}--></span></i> from server <i>{{change.idOrigin}}</i> to server <i>{{change.idDest}}</i>
+							Shard <i><span ng-mouseover="highlightShard(change.idShard)" ng-mouseleave="unHighlightShard(change.idShard)">{{change.idShard | limitTo: 10}}...{{change.idShard | limitTo: -10}}</span></i> from server <i>{{change.idOrigin}}</i> to server <i>{{change.idDest}}</i>
 						</span>
 						<a ng-click="removeChange(change)" href=""><span class="glyphicon glyphicon-remove-sign"></span></a>
 					</td>
@@ -118,21 +152,3 @@
 
 </body>
 </html>
-
-<!--
-barre de poid par rapport max/moyenne //// FAIT ///
-
-locker un shard
-
-virer un server de la zone  /// FAIT ///
-
-script auto lancé avec bouton
-
-on selectionne les tables de travaille et les region de celle-ci sont affichée
-
-quand on arrive on doit afficher toutes les tables (bouton ..)
-
-pouvoir deplacer dans la zone de manip
-
-possibilite de split une region
--->
