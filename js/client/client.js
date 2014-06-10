@@ -1,3 +1,5 @@
+var retrieveServer = 'tmp/FormeJsonCluster.json';
+
 jQuery.event.props.push('dataTransfer');
 var app = angular.module('MonApp',['lvl.directives.dragdrop','ui.bootstrap','LocalStorageModule']);
 /*
@@ -28,7 +30,7 @@ app.factory('NetFactory', function($http, $q){
 		getServerDatas : function(){
 			var deferred = $q.defer();
 			//http://10.59.14.102:8080/aboutCluster
-			$http({method: 'GET', url: 'tmp/FormeJsonCluster.json'})
+			$http({method: 'GET', url: retrieveServer})
 			//$http({method: 'GET', url: 'http://10.59.14.102:8080/aboutCluster'})
 				.success(function(data, status){
 					factory.dataServer = data;
@@ -80,7 +82,7 @@ app.factory('NetFactory', function($http, $q){
 		postChanges : function(scope){
 			var deferred = $q.defer();
 			$http({
-			    url: 'http://10.59.14.102:8080/applyChanges',
+			    url: retrieveServer,
 			    dataType: 'json',
 			    method: 'POST',
 			    data: {'moves': scope.changes},
@@ -488,8 +490,17 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
         		$scope.tmpGroupCreateDisabled = false;
         	}
         };
+        isNameUsed = function(name){
+        	var nameUsed = false;
+        	angular.forEach($scope.tableGroups, function(group, index){
+        		if(group.name == name){
+        			nameUsed = true;
+        		}
+        	});
+        	return nameUsed;
+        };
         $scope.createGroup = function(tmpGroupName){
-        	if(tmpGroupName != undefined){
+        	if(tmpGroupName != undefined && !isNameUsed(tmpGroupName)){
 	        	$scope.tmpTableGroup.name = angular.copy(tmpGroupName);
 	        	$scope.tmpTableGroup.selected = true;
 	        	$scope.tableGroups.push($scope.tmpTableGroup);
