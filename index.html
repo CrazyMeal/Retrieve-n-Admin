@@ -22,6 +22,7 @@
 				<a value="Table" class="btn btn-info" type="submit" ng-click="tableCollapsed = !tableCollapsed">Chose Tables</a>
 				<a value="refreshList" class="btn btn-default" ng-click="refreshBool = true">Refresh sort</a>
 				<a value="help" class="btn btn-default" ng-click="openModal('help')">Help !</a>
+				<a value="debug" class="btn btn-default" ng-click="rebuildDatasToShow()">Debug</a>
 			</div>
 			<div collapse="!tableCollapsed">
 				<div id="tableZone" class="col-md-3">
@@ -72,7 +73,7 @@
 			<div collapse="tableCollapsed">
 				<div id="serversSlider">
 					<ul>
-						<li ng-repeat="server in dataServer.servers | orderBy: refresh" class="serverSlider" x-lvl-draggable='true' serverId="{{server.id}}" imbalance="{{server.imbalance}}">
+						<li ng-repeat="server in datasToShow.servers | orderBy: refresh" class="serverSlider" x-lvl-draggable='true' serverId="{{server.id}}" imbalance="{{server.imbalance}}">
 							id: {{server.id}} <br>
 							weight: {{server.weight}} <br>
 							<img src="img/server.png" alt="serverSlider"/>

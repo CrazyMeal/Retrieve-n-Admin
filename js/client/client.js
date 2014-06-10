@@ -49,7 +49,6 @@ app.factory('NetFactory', function($http, $q){
 			var denum = scope.dataServer.servers.length;
 
 			angular.forEach(scope.dataServer.servers, function(server, index){
-
 				var tmpWeightValue = 0;
 				angular.forEach(server.shards, function(shard, index){
 					shard.weight = parseFloat(shard.weight.toFixed(4));
@@ -99,7 +98,38 @@ app.factory('NetFactory', function($http, $q){
 });
 
 app.controller('MainController',function ($scope, $modal, NetFactory, localStorageService){
-		
+		$scope.rebuildDatasToShow = function(){
+			$scope.datasToShow.servers = [];
+			var num = 0;
+
+			angular.forEach($scope.dataServer.servers, function(server, indexServer){
+				var serverCopy = angular.copy(server);
+				serverCopy.weight = 0;
+				serverCopy.shards = [];
+				
+				angular.forEach(server.shards, function(shard, indexShard){
+					angular.forEach($scope.tables, function(table, indexTable){
+						if(shard.table == table.name){
+							if(table.selected){
+								serverCopy.shards.push(shard);
+								serverCopy.weight += shard.weight;
+							}
+						}
+					});
+				});
+				num += serverCopy.weight;
+				//if(!(serverCopy.shards.length == 0)){
+					$scope.datasToShow.servers.push(serverCopy);
+				//}
+			});
+			$scope.average = num / $scope.datasToShow.servers.length;
+			angular.forEach($scope.datasToShow.servers, function(server, indexServer){
+				server.imbalance = calculateImbalance(server.weight);
+				server.savedImbalance = server.imbalance;
+			});
+			calculateWorstImbalance();
+			console.log($scope.datasToShow.servers);
+		};
 		//Partie pour récupération de données depuis le web
 		init = function(){
 			$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
@@ -119,6 +149,10 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 					$scope.loading = false;
 					NetFactory.calculateDatas($scope);
 
+					
+
+					$scope.datasToShow = angular.copy($scope.dataServer);
+					$scope.rebuildDatasToShow();
 					calculateWorstImbalance();
 				}
 			}, function(msg){
@@ -283,6 +317,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 					$scope.dataServer.servers[destIndex].imbalance = calculateImbalance($scope.dataServer.servers[destIndex].weight);
 
 					calculateWorstImbalance();
+
+					$scope.rebuildDatasToShow();
 					$scope.$apply();
 				}
 			}
@@ -294,7 +330,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			var drop = angular.element(dropEl);
 			var drag = angular.element(dragEl);
 			if(drag.hasClass("serverSlider")){
-				angular.forEach($scope.dataServer.servers, function(server, index){
+				//angular.forEach($scope.dataServer.servers, function(server, index){
+				angular.forEach($scope.datasToShow.servers, function(server, index){
 				if(server.id == drag.attr('serverId')){
 					if($.inArray(server, $scope.serversToSplit) == -1){
 						$scope.serversToSplit.push(server);
@@ -411,7 +448,8 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
         	//console.log('fonction calculateWorstImbalance');
         	var worstWeight = 0;
         	var worstImbalance = 0;
-        	angular.forEach($scope.dataServer.servers, function(server, index){
+        	//angular.forEach($scope.dataServer.servers, function(server, index){
+        	angular.forEach($scope.datasToShow.servers, function(server, index){
         		if(server.weight > worstWeight){
         			worstWeight = parseFloat(server.weight);
         		}
