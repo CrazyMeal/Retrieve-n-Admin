@@ -131,6 +131,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			console.log($scope.datasToShow.servers);
 		};
 		//Partie pour récupération de données depuis le web
+
 		init = function(){
 			$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
 				if(dataServer.error != undefined){
