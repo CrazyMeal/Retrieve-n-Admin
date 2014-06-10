@@ -101,7 +101,6 @@ app.factory('NetFactory', function($http, $q){
 app.controller('MainController',function ($scope, $modal, NetFactory, localStorageService){
 		
 		//Partie pour récupération de données depuis le web
-
 		init = function(){
 			$scope.datas = NetFactory.getServerDatas().then(function(dataServer){
 				if(dataServer.error != undefined){
