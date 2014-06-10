@@ -259,6 +259,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			$scope.dataServer.servers[indexOriginServer].shards.splice(indexShardToSplice, 1);
 
 			draggedElement.attr("serverId", idDroppedServer);
+
 			//$scope.$apply();
 		};
 		notifyChanges = function(shardId, serverOriginId, serverDestId){
