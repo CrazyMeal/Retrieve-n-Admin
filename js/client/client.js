@@ -510,11 +510,24 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
         	});
         	$scope.tableGroups.splice(indexFound, 1);
         };
+
         $scope.manageGroupVision = function(group){
         	group.selected = !group.selected;
         	
         	angular.forEach(group, function(table, index){
         		table.selected = group.selected;
+        	});
+        	angular.forEach($scope.tableGroups, function(grp, index){
+        		var allSelected = [];
+        		angular.forEach(grp, function(table, index){
+        			allSelected.push(table.selected);
+        		});
+        		if($.inArray(true, allSelected) == -1){
+        			grp.selected = false;
+        		}
+        		if($.inArray(false, allSelected) == -1){
+        			grp.selected = true;
+        		}
         	});
         };
         $scope.highlightShard = function(idShard){
