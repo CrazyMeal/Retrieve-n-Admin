@@ -38,3 +38,5 @@ Start the selenium webdriver
     node ./node_modules/protractor/bin/webdriver-manager start
 
 And finally you can run your e2e tests
+
+    node ./node_modules/protractor/bin/protractor protractor_conf.js
