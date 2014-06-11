@@ -1,4 +1,4 @@
-var retrieveServer = 'tmp/FormeJsonCluster.json';
+var retrieveServer = 'testDatas/FormeJsonCluster.json';
 
 jQuery.event.props.push('dataTransfer');
 var app = angular.module('MonApp',['lvl.directives.dragdrop','ui.bootstrap','LocalStorageModule']);
@@ -29,7 +29,7 @@ app.factory('NetFactory', function($http, $q){
 	var factory = {
 		getServerDatas : function(){
 			var deferred = $q.defer();
-			$http({method: 'GET', url: retrieveServer})
+			$http({method: 'GET', url: retrieveServer + '/aboutCluster'})
 				.success(function(data, status){
 					factory.dataServer = data;
 					deferred.resolve(factory.dataServer);
@@ -42,16 +42,9 @@ app.factory('NetFactory', function($http, $q){
 		calculateDatas : function(scope){
 			var tables = [];
 			var tablesFound = [];
-			//var totalWeight = 0;
-			//var num = 0;
-			//var denum = scope.dataServer.servers.length;
 
 			angular.forEach(scope.dataServer.servers, function(server, index){
-
-				//var tmpWeightValue = 0;
 				angular.forEach(server.shards, function(shard, index){
-					//shard.weight = parseFloat(shard.weight.toFixed(4));
-					//tmpWeightValue = tmpWeightValue + parseFloat(shard.weight);
 					if($.inArray(shard.table, tablesFound) == -1){
 						tablesFound.push(shard.table);
 						
@@ -62,17 +55,10 @@ app.factory('NetFactory', function($http, $q){
 						tables.push(tableToAdd);
 					}
 				});
-				//server.weight = parseFloat(tmpWeightValue.toFixed(4));
-				//num = num + tmpWeightValue;
-
-				//totalWeight = totalWeight + parseFloat(tmpWeightValue);
 			});
-			//scope.totalWeight = totalWeight;
-			//scope.average = num / denum;
 			scope.tables = tables;
 
 			angular.forEach(scope.dataServer.servers, function(server, value){
-				//server.imbalance = calculateImbalance(server.weight);
 				server.isCollapsed = false;
 			});
 		},
@@ -80,7 +66,7 @@ app.factory('NetFactory', function($http, $q){
 		postChanges : function(scope){
 			var deferred = $q.defer();
 			$http({
-			    url: retrieveServer,
+			    url: retrieveServer + '/applyChanges',
 			    dataType: 'json',
 			    method: 'POST',
 			    data: {'moves': scope.changes},
@@ -123,16 +109,11 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 				var serverCopy = angular.copy(server);
 				serverCopy.weight = 0;
 				serverCopy.shards = [];
-				//console.log(server.shards);
-
 				angular.forEach(server.shards, function(shard, indexShard){
-					//console.log($scope.tables);
 					angular.forEach($scope.tables, function(table, indexTable){
-						
 						if(shard.table == table.name){
 							if(table.selected){
 								serverCopy.shards.push(shard);
-								//console.log(shard);
 							}
 						}
 					});
@@ -146,7 +127,6 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 					server.weight += shard.weight;
 				});
 				num += server.weight;
-				//console.log(server.weight);
 			});
 			
 			$scope.average = num / $scope.dataServer.servers.length;
@@ -332,8 +312,6 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 			$scope.dataServer.servers[sourceIndex].shards.splice(shardToSpliceIndex, 1);
 
 			draggedElement.attr("serverId", idDroppedServer);
-
-			//$scope.$apply();
 		};
 		
 		// Partie pour gérer le drag and drop des regions
@@ -417,7 +395,6 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
         	var serverWeight = parseFloat(sWeight);
 
         	percentValue = (shardWeight * 100) / serverWeight;
-        	//$scope.weightWarningType(weight, sWeight);
         	return percentValue;
         };
         $scope.weightWarningType = function(weight, sWeight) {

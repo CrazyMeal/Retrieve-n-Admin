@@ -1,0 +1,100 @@
+{
+    "cluster": 0,
+    "servers": [
+        {
+            "id": 0,
+            "shards": [
+                {
+                    "id": "s0s001010101010100101010101010100101010100101010100101010100101100101010101010010101010101010010101010",
+                    "weight": 10,
+                    "table" : "regionstat"
+                },
+                {
+                    "id": "s0s1",
+                    "weight": 20,
+                    "table" : "root"
+                },
+                {
+                    "id": "s0s2",
+                    "weight": 50,
+                    "table" : "meta"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "shards": [
+                {
+                    "id": "s1s0",
+                    "weight": 30,
+                    "table" : "root"
+                },
+                {
+                    "id": "s1s1",
+                    "weight": 30,
+                    "table" : "regionstat"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "shards": [
+                {
+                    "id": "s2s0",
+                    "weight": 7,
+                    "table" : "root"
+                },
+                {
+                    "id": "s2s1",
+                    "weight": 3,
+                    "table" : "root"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "shards": [
+                {
+                    "id": "s3s0",
+                    "weight": 27,
+                    "table" : "regionstat"
+                },
+                {
+                    "id": "s3s1",
+                    "weight": 80,
+                    "table" : "meta"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "shards": [
+                {
+                    "id": "s4s0",
+                    "weight": 18,
+                    "table" : "meta"
+                },
+                {
+                    "id": "s4s1",
+                    "weight": 33,
+                    "table" : "regionstat"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "shards": [
+                {
+                    "id": "s5s0",
+                    "weight": 14,
+                    "table" : "regionstat"
+                },
+                {
+                    "id": "s5s1",
+                    "weight": 25,
+                    "table" : "regionstat"
+                }
+            ]
+        }
+    ]
+}
