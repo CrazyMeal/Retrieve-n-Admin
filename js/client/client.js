@@ -129,7 +129,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 				num += server.weight;
 			});
 			
-			$scope.average = num / $scope.dataServer.servers.length;
+			$scope.average = (parseFloat((num / $scope.dataServer.servers.length))).toFixed(4);
 			angular.forEach($scope.dataServer.servers, function(server, indexServer){
 				server.imbalance = calculateImbalance(server.weight);
 			});
@@ -469,7 +469,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
         			worstImbalance = Math.abs(parseFloat(server.weight) - $scope.average);
         		}
         	});
-        	$scope.worstImbalance = worstImbalance;
+        	$scope.worstImbalance = worstImbalance.toFixed(4);
         	$scope.worstWeight = worstWeight;
         	$scope.firstLoop = true;
         };
