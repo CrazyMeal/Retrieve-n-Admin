@@ -7,10 +7,10 @@ describe('homepage', function() {
 	    browser.waitForAngular();
 	    browser.sleep(1500);
 	});
-	/*
+	
 	it('Title test',
 		function() {
-			expect(browser.getTitle()).toBe('JSBase');
+			expect(browser.getTitle()).toBe('Retrieve\'n Admin');
 			console.log(' \n Title test passed');
 		}
 	);
@@ -21,24 +21,24 @@ describe('homepage', function() {
 			expect(elems.count()).toBe(6);
 
 			elems = element.all(by.repeater('chunkServer in splitServers'));
-			expect(elems.count()).toBe(0);
+			expect(elems.count()).toBe(1);
 			console.log('Init test passed');
 		}
 	);
-*/
+
 	it('Drag and drop test',
 		function() {
 			//element(by.css('button[serverId="300"]')).click();
 			
 			//browser.actions().click(element(by.css('li[serverId="1"]'))).perform();
 			//browser.actions().click(element(by.css('#serverContainer'))).perform();
-			
+			/*
 			browser.actions().dragAndDrop(
 				element(by.css('li[serverId="1"]')).find(),
 				element(by.css('#serverContainer')).find()
 			).perform();
 			browser.sleep(1500);
-			
+			*/
 			/*
 			browser.actions().
 			   mouseMove(element(by.css('li[serverId="1"]'))).
