@@ -94,7 +94,7 @@ describe('Unit: Maincontroller', function() {
 		angular.mock.inject(function($controller, $rootScope, $injector){
 			scope = $rootScope.$new();
 			httpBackend = $injector.get('$httpBackend');
-			httpBackend.when('GET', 'testDatas/FormeJsonCluster.json').respond(datas);
+			httpBackend.when('GET', 'testDatas/aboutCluster').respond(datas);
 
 			ctrl = $controller('MainController', { $scope: scope });
 			scope.$digest();

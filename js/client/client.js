@@ -134,7 +134,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 				server.imbalance = calculateImbalance(server.weight);
 			});
 			calculateWorstImbalance();
-			console.log($scope.dataServer);
+			//console.log($scope.dataServer);
 
 			var tmpManipulated = [];
 			angular.forEach($scope.serversToSplit, function(servToSplit, indexSplit){
@@ -406,7 +406,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 				});
 			}
 			splitServers();
-			console.log($scope.splitServers);
+			//console.log($scope.splitServers);
 			$scope.$apply();
 		};
         $scope.weightPercent = function(weight, sWeight) {

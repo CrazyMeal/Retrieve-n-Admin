@@ -23,9 +23,13 @@ module.exports = function(grunt) {
             // run in parallel with other tasks
             runInBackground: false
         }
-
+    },
+    'karma' : {
+      'unit' : {
+        configFile: 'karma.conf.js'
+      }
     }
   });
-
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-http-server');
 };
