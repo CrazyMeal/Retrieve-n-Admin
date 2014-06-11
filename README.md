@@ -2,6 +2,7 @@ Retrieve-n-Admin
 ================
 
 Javascript to manipulate HBase regions
+This project was made by Denaux Robin and Paquet Kévin and managed by Fondement Frédéric
 
 Installation
 ================
