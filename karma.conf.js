@@ -14,12 +14,19 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js',
-      'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js',
-      'https://code.angularjs.org/1.2.16/angular-mocks.js',
+      './js/jquery/jquery-1.11.1.min.js',
+      './js/angular/angular.min.js',
+      './js/angular/angular-mocks.js',
+      
+      './js/bootstrap/bootstrap.min.js',
       './js/dragAndDrop/*.js',
       './js/ui-bootstrap/*.js',
+      './js/loading/*.js',
+      './js/local-storage/*.js',
+      
+      './js/client/bruteforce.js',
       './js/client/client.js',
+
       './js/test/unit/main.js'
 
     ],

@@ -119,9 +119,9 @@ describe('Unit: Maincontroller', function() {
 
 	it('Initial values',
 		function(){
-			expect(scope.worstImbalance).toEqual(49.166666666666664);
-			expect(scope.average).toEqual(57.833333333333336);
-			expect(scope.totalWeight).toEqual(347);
+			expect(scope.worstImbalance).toEqual('49.1667');
+			expect(scope.average).toEqual('57.8333');
+			//expect(scope.totalWeight).toEqual(347);
 		}
 	);
 
@@ -171,7 +171,7 @@ describe('Unit: Maincontroller', function() {
 			var serverWeight = scope.dataServer.servers[0].weight;
 			var returnedValue = calculateImbalance(serverWeight);
 
-			expect(returnedValue).toEqual(22.166666666666664);
+			expect(returnedValue).toEqual(22.1667);
 		}
 	);
 })

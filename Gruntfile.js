@@ -24,9 +24,6 @@ module.exports = function(grunt) {
             runInBackground: false
         }
 
-    },
-    'unit-test' : {
-
     }
   });
 
