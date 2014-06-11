@@ -1,4 +1,4 @@
-var retrieveServer = 'testDatas/FormeJsonCluster.json';
+var retrieveServer = 'testDatas';
 
 jQuery.event.props.push('dataTransfer');
 var app = angular.module('MonApp',['lvl.directives.dragdrop','ui.bootstrap','LocalStorageModule']);
@@ -29,7 +29,7 @@ app.factory('NetFactory', function($http, $q){
 	var factory = {
 		getServerDatas : function(){
 			var deferred = $q.defer();
-			$http({method: 'GET', url: retrieveServer})
+			$http({method: 'GET', url: retrieveServer + '/aboutCluster'})
 				.success(function(data, status){
 					factory.dataServer = data;
 					deferred.resolve(factory.dataServer);
