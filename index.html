@@ -19,10 +19,9 @@
 				<a value=" Save" class="btn btn-info" type="submit" ng-click="loadModifications()">Load configuration</a>
 				<a value=" Load" class="btn btn-info" type="submit" ng-click="saveModifications()">Save configuration</a>
 				<a value="automaticBalance" class="btn btn-info" ng-click="automaticBalance()">Automatic balance</a>
-				<a value="Table" class="btn btn-info" type="submit" ng-click="tableCollapsed = !tableCollapsed">Chose Tables</a>
+				<a value="Table" class="btn btn-info" type="submit" ng-click="rebuildDatasToShow()">Chose Tables</a>
 				<a value="refreshList" class="btn btn-default" ng-click="refreshBool = true">Refresh sort</a>
 				<a value="help" class="btn btn-default" ng-click="openModal('help')">Help !</a>
-				<a value="help" class="btn btn-default" ng-click="rebuildDatasToShow()">Debug</a>
 			</div>
 			<div collapse="!tableCollapsed">
 				<div id="tableZone" class="col-md-3">

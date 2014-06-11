@@ -42,16 +42,16 @@ app.factory('NetFactory', function($http, $q){
 		calculateDatas : function(scope){
 			var tables = [];
 			var tablesFound = [];
-			var totalWeight = 0;
-			var num = 0;
-			var denum = scope.dataServer.servers.length;
+			//var totalWeight = 0;
+			//var num = 0;
+			//var denum = scope.dataServer.servers.length;
 
 			angular.forEach(scope.dataServer.servers, function(server, index){
 
-				var tmpWeightValue = 0;
+				//var tmpWeightValue = 0;
 				angular.forEach(server.shards, function(shard, index){
-					shard.weight = parseFloat(shard.weight.toFixed(4));
-					tmpWeightValue = tmpWeightValue + parseFloat(shard.weight);
+					//shard.weight = parseFloat(shard.weight.toFixed(4));
+					//tmpWeightValue = tmpWeightValue + parseFloat(shard.weight);
 					if($.inArray(shard.table, tablesFound) == -1){
 						tablesFound.push(shard.table);
 						
@@ -62,17 +62,17 @@ app.factory('NetFactory', function($http, $q){
 						tables.push(tableToAdd);
 					}
 				});
-				server.weight = parseFloat(tmpWeightValue.toFixed(4));
-				num = num + tmpWeightValue;
+				//server.weight = parseFloat(tmpWeightValue.toFixed(4));
+				//num = num + tmpWeightValue;
 
-				totalWeight = totalWeight + parseFloat(tmpWeightValue);
+				//totalWeight = totalWeight + parseFloat(tmpWeightValue);
 			});
-			scope.totalWeight = totalWeight;
-			scope.average = num / denum;
+			//scope.totalWeight = totalWeight;
+			//scope.average = num / denum;
 			scope.tables = tables;
 
 			angular.forEach(scope.dataServer.servers, function(server, value){
-				server.imbalance = calculateImbalance(server.weight);
+				//server.imbalance = calculateImbalance(server.weight);
 				server.isCollapsed = false;
 			});
 		},
@@ -115,6 +115,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
         };
 
 		$scope.rebuildDatasToShow = function(){
+			$scope.tableCollapsed = !$scope.tableCollapsed;
 			$scope.dataServer.servers = [];
 			var num = 0;
 
@@ -122,26 +123,50 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 				var serverCopy = angular.copy(server);
 				serverCopy.weight = 0;
 				serverCopy.shards = [];
-				
+				//console.log(server.shards);
+
 				angular.forEach(server.shards, function(shard, indexShard){
+					//console.log($scope.tables);
 					angular.forEach($scope.tables, function(table, indexTable){
+						
 						if(shard.table == table.name){
 							if(table.selected){
 								serverCopy.shards.push(shard);
-								serverCopy.weight += shard.weight;
+								//console.log(shard);
 							}
 						}
 					});
 				});
-				num += serverCopy.weight;
+				
 				$scope.dataServer.servers.push(serverCopy);
 			});
+
+			angular.forEach($scope.dataServer.servers, function(server, indexServer){
+				angular.forEach(server.shards, function(shard, indexShard){
+					server.weight += shard.weight;
+				});
+				num += server.weight;
+				//console.log(server.weight);
+			});
+			
 			$scope.average = num / $scope.dataServer.servers.length;
 			angular.forEach($scope.dataServer.servers, function(server, indexServer){
 				server.imbalance = calculateImbalance(server.weight);
-				server.savedImbalance = server.imbalance;
 			});
 			calculateWorstImbalance();
+			console.log($scope.dataServer);
+
+			var tmpManipulated = [];
+			angular.forEach($scope.serversToSplit, function(servToSplit, indexSplit){
+				tmpManipulated.push(servToSplit.id);
+			});
+			$scope.serversToSplit = [];
+			$scope.splitServers = [];
+			angular.forEach($scope.dataServer.servers, function(server, indexServer){
+				if($.inArray(server.id, tmpManipulated) != -1){
+					$scope.serversToSplit.push(server);
+				}
+			});
 			splitServers();
 		};
 		//Partie pour récupération de données depuis le we
@@ -161,6 +186,7 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 					$scope.refreshCount = 0;
 					$scope.selectedAll = true;
 					$scope.loading = false;
+					$scope.tableCollapsed = true;
 					NetFactory.calculateDatas($scope);
 
 					calculateWorstImbalance();
