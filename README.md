@@ -7,6 +7,8 @@ This project was made by Denaux Robin and Paquet Kévin and managed by Fondement
 
 Installation
 ================
+Before any command, note that you have to have [Node.js](http://nodejs.org/) installed on your computer.
+
 All dependecies you need are specified in the project, you just need this command to setup:
 
     npm install
