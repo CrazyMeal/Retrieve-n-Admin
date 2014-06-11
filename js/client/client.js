@@ -181,15 +181,36 @@ app.controller('MainController',function ($scope, $modal, NetFactory, localStora
 		
 		init();
 		
+		bindGroups = function(){
+			var tableGroups = [];
+			var tmpGroups = localStorageService.get('storedGroups');
+			angular.forEach(tmpGroups, function(group, indexGroup){
+				var tmpGroup =[];
+				angular.forEach(group, function(groupTable, indexGroupTable){
+					
+					angular.forEach($scope.tables, function(table){
+						if(table.name == groupTable.name){
+							tmpGroup.push(table);
+						}
+					});
+				});
+				tmpGroup.name = group.name;
+				tmpGroup.selected = true;
+				tableGroups.push(tmpGroup);
+			});
+			return tableGroups;
+		};
 		$scope.saveModifications = function(){
 			localStorageService.clearAll();
 			localStorageService.set('storedChanges', angular.copy($scope.changes));
+			localStorageService.set('storedGroups', $scope.tableGroups);
 			console.log('data saved');
 		};
 		$scope.loadModifications = function(){
 			$scope.abortChanges();
 			$scope.changes = localStorageService.get('storedChanges');
 			$scope.applyChangement($scope.changes);
+			$scope.tableGroups = bindGroups(); 
 			console.log('data loaded');
 		};
 		$scope.applyChangement = function(changes){

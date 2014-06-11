@@ -12,7 +12,6 @@ module.exports = function(grunt) {
             root: './',
 
             port: 9000,
-            // port: function() { return 8282; }
 
             host: "127.0.0.1",
 
@@ -24,6 +23,9 @@ module.exports = function(grunt) {
             // run in parallel with other tasks
             runInBackground: false
         }
+
+    },
+    'unit-test' : {
 
     }
   });
