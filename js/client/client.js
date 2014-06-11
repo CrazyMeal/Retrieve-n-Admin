@@ -29,7 +29,7 @@ app.factory('NetFactory', function($http, $q){
 	var factory = {
 		getServerDatas : function(){
 			var deferred = $q.defer();
-			$http({method: 'GET', url: retrieveServer + '/aboutCluster'})
+			$http({method: 'GET', url: retrieveServer})
 				.success(function(data, status){
 					factory.dataServer = data;
 					deferred.resolve(factory.dataServer);
