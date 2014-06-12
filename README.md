@@ -15,6 +15,14 @@ All dependecies you need are specified in the project, you just need this comman
 
 > Notice that this project alone will only work on local datas, you need to get Server side to have a fully interactive project
 
+Configuration
+================
+Normaly you can jump out this step, the Server address is automaticaly set up by the server.
+If you really need to change it, you can go in file client/client.js and change variable to indicate root address:
+
+    var retrieveServer = 'testDatas';
+
+
 Run Unit tests
 ================
 To run Unit Tests run:
